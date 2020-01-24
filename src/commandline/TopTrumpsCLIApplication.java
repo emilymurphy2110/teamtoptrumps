@@ -22,7 +22,7 @@ public class TopTrumpsCLIApplication {
 		
 		// Loop until the user wants to exit the game
 		
-		String name = textInput("What is your name??");
+		String name = textInput("What is your name?");
 		int noOfAI = -1;
 		
 		while (!userWantsToQuit) {
