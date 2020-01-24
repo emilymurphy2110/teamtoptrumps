@@ -21,6 +21,10 @@ public class TopTrumpsCLIApplication {
 		boolean userWantsToQuit = false; // flag to check whether the user wants to quit the application
 		
 		// Loop until the user wants to exit the game
+		
+		String name = textInput("What is your name?");
+		int noOfAI = -1;
+		
 		while (!userWantsToQuit) {
 
 			switch(menu("Play game", "Past Game Statistics")) {
