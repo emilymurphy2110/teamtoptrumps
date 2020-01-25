@@ -13,6 +13,15 @@ public class Game {
 		this.players = players;
 	}
 	
+	// increments the number of draws 
+	public void noOfDraws() {
+		this.draws++;
+	}
+	
+	// increments the number of rounds
+	public void noOfRounds() {
+		this.rounds++;
+	}
 	
 	@Override
 	public String toString() {

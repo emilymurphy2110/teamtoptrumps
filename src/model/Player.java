@@ -5,6 +5,10 @@ public class Player {
 	private int id;
 	private String name;
 	private Deck deck;
+	private Card[] playerHand; // cards held by the player
+	private int noRoundsWon;
+	private boolean inGame;
+	
 	public Player(int id, String name, Deck deck) {
 		super();
 		this.id = id;
@@ -15,6 +19,21 @@ public class Player {
 	@Override
 	public String toString() {
 		return "The Players ID is " + id + ", and there name is " + name;
+	}
+	
+	// increments the number of rounds won
+	public void roundWon() {
+		noRoundsWon++;
+	}
+	
+	// returns number of cards in the players hands
+	public int getPlayersHand() {
+		return this.playerHand.length;
+	}
+	
+	// returns whether player is still in the game or not
+	public boolean stillInGame() {
+		return inGame;
 	}
 	
 	public int getId() {
@@ -35,5 +54,33 @@ public class Player {
 	public void setDeck(Deck deck) {
 		this.deck = deck;
 	}
+
+	public int getNoRoundsWon() {
+		return noRoundsWon;
+	}
+
+	public void setNoRoundsWon(int noRoundsWon) {
+		this.noRoundsWon = noRoundsWon;
+	}
+
+	public Card[] getPlayerHand() {
+		return playerHand;
+	}
+
+	public void setPlayerHand(Card[] playerHand) {
+		this.playerHand = playerHand;
+	}
+
+	public boolean isInGame() {
+		return inGame;
+	}
+
+	public void setInGame(boolean inGame) {
+		this.inGame = inGame;
+	}
+	
+	
+	
+	
 
 }
