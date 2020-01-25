@@ -1,12 +1,26 @@
 package commandline;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Scanner;
+
+
+import model.Card;
+import model.Characteristic;
+import model.Deck;
+import model.Game;
+import model.Player;
+import online.configuration.TopTrumpsJSONConfiguration;
 
 /**
  * Top Trumps command line application
  */
 public class TopTrumpsCLIApplication {
 
+	public static Game game;
 	/**
 	 * This main method is called by TopTrumps.java when the user specifies that they want to run in
 	 * command line mode. The contents of args[0] is whether we should write game logs to a file.
@@ -42,6 +56,9 @@ public class TopTrumpsCLIApplication {
 			
 			userWantsToQuit=true; // use this when the user wants to exit the game
 			
+			
+			Deck deck = loadCards();
+			//deck.print();
 		}
 
 
@@ -90,5 +107,40 @@ public class TopTrumpsCLIApplication {
 			}
 		}
 	}
+	
+	public static void setUpGame(int noOfPlayers) {
+		Player[] players = new Player[noOfPlayers];
+		Deck cards = new Deck();
+	}
+	
+	public static Deck loadCards() {
+		Deck newCards = new Deck();
+		List<String> lines = null;
+
+		try {
+			lines = Files.readAllLines(Paths.get("StarCitizenDeck.txt"), StandardCharsets.US_ASCII);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String[] characteristicsNames = lines.get(0).split(" ");
+		String[] values;
+		for(int i = 1; i < lines.size(); i++) {
+			values = lines.get(i).split(" ");
+			Characteristic c1 = new Characteristic(characteristicsNames[1],Integer.valueOf(values[1]));
+			Characteristic c2 = new Characteristic(characteristicsNames[2],Integer.valueOf(values[2]));
+			Characteristic c3 = new Characteristic(characteristicsNames[3],Integer.valueOf(values[3]));
+			Characteristic c4 = new Characteristic(characteristicsNames[4],Integer.valueOf(values[4]));
+			Characteristic c5 = new Characteristic(characteristicsNames[5],Integer.valueOf(values[5]));
+			
+			Characteristic[] characteristics = new Characteristic[] {
+					c1, c2, c3, c4, c5
+			};
+
+			Card newCard = new Card(values[0],characteristics);
+			newCards.addCard(newCard);
+		}
+		return newCards;
+	}
+	
 
 }

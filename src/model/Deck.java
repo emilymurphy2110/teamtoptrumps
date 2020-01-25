@@ -6,10 +6,7 @@ public class Deck {
 	
 	private ArrayList<Card> cards = new ArrayList<Card>();
 
-	public Deck(ArrayList cards) {
-		super();
-		this.cards = cards;
-	}
+	
 
 	@Override
 	public String toString() {
