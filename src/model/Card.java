@@ -14,7 +14,7 @@ public class Card {
 	
 	@Override
 	public String toString() {
-		return "Card chosen is this card" + name + ", with the characteristics " + Arrays.toString(characteristics);
+		return "Card: " + name + ", cards characteristics: " + Arrays.toString(characteristics) + "\n";
 	}
 
 	public String getName() {

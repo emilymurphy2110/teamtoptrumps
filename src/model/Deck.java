@@ -17,6 +17,11 @@ public class Deck {
 		return cards;
 	}
 
+	
+	public void print() {
+		System.out.println("Within the Deck, the cards are " + cards);
+	}
+	
 	public void setCards(ArrayList cards) {
 		this.cards = cards;
 	}

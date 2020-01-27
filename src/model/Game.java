@@ -25,7 +25,7 @@ public class Game {
 	
 	@Override
 	public String toString() {
-		return "The game ID is " + id + ", the number of draws is" + draws + ", the number of rounds is " + rounds + ", and the winner is " + winner;
+		return "Game ID: " + id + ", draws: " + draws + ", rounds: " + rounds + ", winner: " + winner;
 	}
 
 	public int getId() {

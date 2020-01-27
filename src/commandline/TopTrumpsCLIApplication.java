@@ -58,7 +58,7 @@ public class TopTrumpsCLIApplication {
 			
 			
 			Deck deck = loadCards();
-			//deck.print();
+			deck.print();
 		}
 
 
