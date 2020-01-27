@@ -1,16 +1,28 @@
 package model;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Deck {
 	
-	private ArrayList<Card> cards = new ArrayList<Card>();
+	private static ArrayList<Card> cards = new ArrayList<Card>();
 
 	
 
 	@Override
 	public String toString() {
 		return "Within the Deck, the cards are " + cards;
+	}
+	
+	public static void shuffleDeck(Deck deck) {
+		ArrayList<Card> shuffled = new ArrayList<>(cards);
+		Collections.shuffle(shuffled);
+	}
+	
+	public List<Card> unshuffledDeck() {
+		return cards;
 	}
 
 	public ArrayList getCards() {
@@ -35,5 +47,6 @@ public class Deck {
 		this.cards.remove(i);
 		return temp;
 	}
+
 
 }

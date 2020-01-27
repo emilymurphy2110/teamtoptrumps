@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -60,7 +63,18 @@ public class TopTrumpsCLIApplication {
 			
 			
 			Deck deck = loadCards();
+			// this shuffle deck doesnt seem to be doing anything just now - method in Deck class
+			Deck.shuffleDeck(deck);
 			deck.print();
+			
+			// shuffleCards(deck, 40);
+			
+			//Deck.shuffleDeck();
+			
+			
+			
+			
+			
 		}
 
 
@@ -113,6 +127,9 @@ public class TopTrumpsCLIApplication {
 	public static void setUpGame(int noOfPlayers) {
 		Player[] players = new Player[noOfPlayers];
 		Deck cards = new Deck();
+		// shuffle method
+		// distribute cards
+		// make sure these cards are added to the player
 	}
 	
 	public static Deck loadCards() {
@@ -143,6 +160,33 @@ public class TopTrumpsCLIApplication {
 		}
 		return newCards;
 	}
+	// these shuffle deck not fully functional yet - need to try sort this out
+//	public static void shuffleDeck() {
+//		int sizeOfDeck = 40;
+//		List<Card> shuffled = new ArrayList<Card>();
+//		shuffled.addAll((Collection<Card>) loadCards());
+//		Random random = new Random();
+//		for(int i=shuffled.size() -1; i>=0;i--) {
+//			int j = random.nextInt(i+1);
+//			
+//			// swap cards
+//			Card card = shuffled.get(i);
+//			shuffled.set(i, shuffled.get(j));
+//			shuffled.set(j, card);
+//		}
+//	}
+//	
+//	public static void shuffleCards(Deck deck, int number) {
+//		Random random = new Random();
+//		
+//		for(int i = 0; i<number; i++) {
+//			int rand = i + random.nextInt(40-i);
+//			
+//			int temp = deck[rand];
+//			deck[rand] = deck[i];
+//			deck[i] = temp;
+//		}
+//		
+//	}
 	
-
 }
