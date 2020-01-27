@@ -18,6 +18,8 @@ import online.configuration.TopTrumpsJSONConfiguration;
 /**
  * Top Trumps command line application
  */
+
+// checking commit on eclipse
 public class TopTrumpsCLIApplication {
 
 	public static Game game;
