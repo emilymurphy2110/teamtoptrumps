@@ -24,7 +24,7 @@
     	
     	<div class="container">
 
-			// CSS for statistics
+			<!-- CSS for statistics -->
 			
 			<style type="text/css">
 				div.heading1{
@@ -54,7 +54,7 @@
 				}
 			</style>
 			
-			// HTML for statistics
+			<!-- HTML for statistics -->
 			
 			<body id="viewstatspage">
 			<div class="heading1">
@@ -82,13 +82,13 @@
 
 			<nav>
 				<ul id="backtomain">
-					<li><a href="welcomepage.html">Back to Main</a></li>
+					<li><a href="http://localhost:8080/toptrumps">Back to Main</a></li>
 				</ul>
 			</nav>
 
 			</body>
 			
-			// end of HTML
+			<!-- end of HTML -->
 
 
 		

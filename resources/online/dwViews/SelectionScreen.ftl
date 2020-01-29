@@ -22,7 +22,7 @@
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
-		// CSS for selection screen
+		<!-- CSS for selection screen -->
     	
     	<style type="text/css">
     		div.heading1{
@@ -31,7 +31,7 @@
 				font-size:24pt;
 			}
 
-		// Selection Buttons Style
+		<!-- Selection Buttons Style -->
 
 			nav{
 				text-align:center;
@@ -50,7 +50,7 @@
 			
 		</style>
 		
-		// HTML for selection screen
+		<!-- HTML for selection screen -->
 		
     	<div class="container">
 
@@ -63,13 +63,13 @@
 
 			<nav>
 				<ul id="newgame">
-					<li><a href="gameplaypage.html">New Game</a></li>
+					<li><a href="http://localhost:8080/toptrumps/game/">New Game</a></li>
 				</ul>
 			</nav>
 
 			<nav>
 				<ul id="viewstats">
-					<li><a href="viewstatspage.html">View Stats</a></li>
+					<li><a href="http://localhost:8080/toptrumps/stats">View Stats</a></li>
 				</ul>
 			</nav>
 
@@ -79,7 +79,7 @@
 		
 		</div>
 		
-		// enf of HTML
+		<!-- End of HTML -->
 		
 		<script type="text/javascript">
 		
