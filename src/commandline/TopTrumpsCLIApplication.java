@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-
+import core.TopTrumps;
 import model.Card;
 import model.Characteristic;
 import model.Deck;
@@ -22,7 +22,6 @@ import online.configuration.TopTrumpsJSONConfiguration;
  * Top Trumps command line application
  */
 
-// checking commit on eclipse
 public class TopTrumpsCLIApplication {
 
 	public static Game game;
@@ -61,25 +60,12 @@ public class TopTrumpsCLIApplication {
 			
 			userWantsToQuit=true; // use this when the user wants to exit the game
 			
-			
-			Deck deck = loadCards();
-			// this shuffle deck doesnt seem to be doing anything just now - method in Deck class
-			Deck.shuffleDeck(deck);
-			deck.print();
-			
-			// shuffleCards(deck, 40);
-			
-			//Deck.shuffleDeck();
-			
-			
-			
-			
-			
+			// calls the setUpGame function from TopTrumps and adds 4 players
+			TopTrumps.setUpGame(4);	
 		}
-
-
 	}
 	
+	// method for creating a menu within the command line
 	private static int menu(String... strings) {
 		while (true) {
 			System.out.println("Please select an option");
@@ -101,12 +87,14 @@ public class TopTrumpsCLIApplication {
 		}
 	}
 	
+	// method for inputting text in the command line
 	public static String textInput(String question) {
 		System.out.println(question);
 		Scanner s = new Scanner(System.in);
 		return s.nextLine();
 	}
 	
+	// method for inputting numbers in the command line
 	public static int numberInput(String question, int min, int max) {
 		while (true) {
 			System.out.println(question + " [" + min + "-" + max + "]");
@@ -123,70 +111,5 @@ public class TopTrumpsCLIApplication {
 			}
 		}
 	}
-	
-	public static void setUpGame(int noOfPlayers) {
-		Player[] players = new Player[noOfPlayers];
-		Deck cards = new Deck();
-		// shuffle method
-		// distribute cards
-		// make sure these cards are added to the player
-	}
-	
-	public static Deck loadCards() {
-		Deck newCards = new Deck();
-		List<String> lines = null;
-
-		try {
-			lines = Files.readAllLines(Paths.get("StarCitizenDeck.txt"), StandardCharsets.US_ASCII);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String[] characteristicsNames = lines.get(0).split(" ");
-		String[] values;
-		for(int i = 1; i < lines.size(); i++) {
-			values = lines.get(i).split(" ");
-			Characteristic c1 = new Characteristic(characteristicsNames[1],Integer.valueOf(values[1]));
-			Characteristic c2 = new Characteristic(characteristicsNames[2],Integer.valueOf(values[2]));
-			Characteristic c3 = new Characteristic(characteristicsNames[3],Integer.valueOf(values[3]));
-			Characteristic c4 = new Characteristic(characteristicsNames[4],Integer.valueOf(values[4]));
-			Characteristic c5 = new Characteristic(characteristicsNames[5],Integer.valueOf(values[5]));
-			
-			Characteristic[] characteristics = new Characteristic[] {
-					c1, c2, c3, c4, c5
-			};
-
-			Card newCard = new Card(values[0],characteristics);
-			newCards.addCard(newCard);
-		}
-		return newCards;
-	}
-	// these shuffle deck not fully functional yet - need to try sort this out
-//	public static void shuffleDeck() {
-//		int sizeOfDeck = 40;
-//		List<Card> shuffled = new ArrayList<Card>();
-//		shuffled.addAll((Collection<Card>) loadCards());
-//		Random random = new Random();
-//		for(int i=shuffled.size() -1; i>=0;i--) {
-//			int j = random.nextInt(i+1);
-//			
-//			// swap cards
-//			Card card = shuffled.get(i);
-//			shuffled.set(i, shuffled.get(j));
-//			shuffled.set(j, card);
-//		}
-//	}
-//	
-//	public static void shuffleCards(Deck deck, int number) {
-//		Random random = new Random();
-//		
-//		for(int i = 0; i<number; i++) {
-//			int rand = i + random.nextInt(40-i);
-//			
-//			int temp = deck[rand];
-//			deck[rand] = deck[i];
-//			deck[i] = temp;
-//		}
-//		
-//	}
 	
 }
