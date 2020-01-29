@@ -18,7 +18,7 @@ public class Player {
 	
 	@Override
 	public String toString() {
-		return "Player ID: " + id + ", players name: " + name;
+		return "Player ID: " + id + ", players name: " + name + ", Players hand: " + deck;
 	}
 	
 	// increments the number of rounds won

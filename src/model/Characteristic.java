@@ -17,7 +17,6 @@ public class Characteristic implements Comparable<Characteristic> {
 	
 	@Override
 	public int compareTo(Characteristic o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
