@@ -22,10 +22,41 @@
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
-    	<div class="container">
+    	// CSS  for game screen
+    	<style type="text/css">
+    		div.heading1{
+				text-align:center;
+				font-family:arial;
+				font-size:24pt;
+			}		
 
-			<!-- Add your HTML Here -->
+			nav{
+				text-align:center;
+				font-family:arial;
+				font-size:10pt;
+			}
+			
+			ul#backtomain{
+    			list-style-type:none;	
+			}
+			
+		</style>
 		
+		// HTML for game screen
+		
+	<body id="gameplaypage">
+		<div class="heading1">
+			<h1></h1>
+		</div>
+
+		<nav>
+			<ul id="backtomain">
+				<li><a href="welcomepage.html">Back to Main</a></li>
+			</ul>
+		</nav>
+
+	</body>
+
 		</div>
 		
 		<script type="text/javascript">

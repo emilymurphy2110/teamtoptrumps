@@ -22,11 +22,64 @@
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
+		// CSS for selection screen
+    	
+    	<style type="text/css">
+    		div.heading1{
+				text-align:center;
+				font-family:arial;
+				font-size:24pt;
+			}
+
+		// Selection Buttons Style
+
+			nav{
+				text-align:center;
+				font-family:arial;
+				font-size:16pt;
+			}
+
+	
+			ul#newgame{
+   				 list-style-type:none;	
+			}
+
+			ul#viewstats{
+   				 list-style-type:none;	
+			}
+			
+		</style>
+		
+		// HTML for selection screen
+		
     	<div class="container">
 
-			<!-- Add your HTML Here -->
+			<body id="welcomepage">
+			<div class="heading1">
+			<h1>Welcome!</h1>
+			</div>
+
+			<!--Game/Stats Selection-->
+
+			<nav>
+				<ul id="newgame">
+					<li><a href="gameplaypage.html">New Game</a></li>
+				</ul>
+			</nav>
+
+			<nav>
+				<ul id="viewstats">
+					<li><a href="viewstatspage.html">View Stats</a></li>
+				</ul>
+			</nav>
+
+			<!--Main Content-->
+
+			</body>
 		
 		</div>
+		
+		// enf of HTML
 		
 		<script type="text/javascript">
 		
