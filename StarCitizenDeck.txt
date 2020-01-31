@@ -1,7 +1,7 @@
 Description	Size Speed Range Firepower Cargo
-350R 1 9 2 3 0	
+350R 1 9 2 3 0
 Avenger 2 5	4 3	2
-Carrack	62 10 4	6
+Carrack	6 2 10 4 6
 Constellation 4	5 7	3 4
 Hawk 1 3 2 4 0
 Hornet 2 5 3 4 1
@@ -16,7 +16,7 @@ Falcon 1 5 9 10	1
 Aurora 6 8 2 4 2
 Bandit 10 9	2 2	3
 Valor 4	1 1	0 9
-Providence 9 8 1 1 2		
+Providence 9 8 1 1 2
 Navigator 10 4 2 7 0
 Vigilant 4 3 1 1 8
 Invictus 3 8 3 2 9
@@ -24,10 +24,10 @@ Horizon	6 4	4 5	2
 Andromeda 1	1 5	4 3
 Inquisitor 8 7 10 10 2
 Patriot	4 8	9 3	1
-Siren 3	2 8	8 9	
+Siren 3	2 8	8 9
 XXX	4 8	9 1	3
 Traveller 7	3 2	2 4
-Aquarius 10	9 3	3 1	
+Aquarius 10	9 3	3 1
 Cassiopeia 4 8 4 3 1
 Hyrda 5	6 6	7 3
 Phoenix	4 9	10 7 5
