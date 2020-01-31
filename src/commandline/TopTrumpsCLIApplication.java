@@ -61,7 +61,7 @@ public class TopTrumpsCLIApplication {
 			userWantsToQuit=true; // use this when the user wants to exit the game
 			
 			// calls the setUpGame function from TopTrumps and adds 4 players
-			TopTrumps.setUpGame(4);	
+			TopTrumps.setUpGame(3);	
 		}
 	}
 	

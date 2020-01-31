@@ -28,7 +28,7 @@ public class Deck {
 	}
 
 	// method for unshuffled deck
-	public List<Card> unshuffledDeck() {
+	public ArrayList<Card> unshuffledDeck() {
 		return cards;
 	}
 
@@ -40,18 +40,14 @@ public class Deck {
 		int handSize = noOfCards / numHands;
 		// System.out.println(handSize);
 		Deck[] hands = new Deck[numHands];
-		// this double for loop adds the cards to the players hands
-		for (int i = 0; i < hands.length; i++) {
-			hands[i] = new Deck();
-			for (int l = i * handSize; l < (i + 1) * handSize; l++) {
-				hands[i].addCard(cards.get(l));
+		for (int i = 0; i < noOfCards; i++) {
+			hands[i%3].addCard(cards.get(i));
 				// System.out.println("transferring card at " + l + " to hand " + i);
 			}
-		}
 		return hands;
 	}
 
-	public ArrayList getCards() {
+	public ArrayList<Card> getCards() {
 		return cards;
 	}
 
@@ -67,10 +63,22 @@ public class Deck {
 		this.cards.add(card);
 	}
 
+	// add the cards to the back of players hand
+	public void addCardToBack(Card card) {
+		ArrayList<Card> newCards = new ArrayList<Card>();
+		newCards.add(card);
+		for(int i=0; i<cards.size(); i++) {
+			newCards.add(cards.get(i));
+		}
+		cards = newCards;
+	}
+	
 	public Card removeCard(int i) {
 		Card temp = this.cards.get(i);
 		this.cards.remove(i);
 		return temp;
 	}
+	
+	
 
 }

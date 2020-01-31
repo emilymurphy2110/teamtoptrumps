@@ -15,6 +15,11 @@ import model.Player;
 import online.TopTrumpsOnlineApplication;
 
 public class TopTrumps {
+	
+	private static Player[] players;
+	public static int noOfCards;
+	private static boolean[] eliminated;
+
 
 	/** This is the main class for the TopTrumps Applications */
 	public static void main(String[] args) {
@@ -63,17 +68,18 @@ public class TopTrumps {
 
 	public static void setUpGame(int noOfPlayers) {
 		// creates an array of players
-		Player[] players = new Player[noOfPlayers];
+		players = new Player[noOfPlayers];
 		// loads the cards
 		Deck cards = loadCards();
+		noOfCards = cards.getCards().size();
 		// shuffles the cards
 		cards.shuffle();
-		// System.out.println(cards.getCards().size());
+		 System.out.println(cards.getCards().size());
 		// splits the cards between the number of players
 		Deck[] hands = cards.split(noOfPlayers);
 		for (int i = 0; i < noOfPlayers; i++) {
 			players[i] = new Player(i, "", hands[i]);
-			// System.out.println(players[i]);
+			 System.out.println(players[i]);
 		}
 		// randomise starting player
 		Random random = new Random();
@@ -106,6 +112,84 @@ public class TopTrumps {
 			newCards.addCard(newCard);
 		}
 		return newCards;
+	}
+	
+	public static void round(int playerChooseAttribute, Deck communalPile) {
+		// step 2 - selects top card from each player
+		Deck topCards = new Deck();
+		for(int i = 0; i<players.length; i++) {
+			topCards.addCard(players[i].getDeck().removeCard(players[i].getDeck().getCards().size() - 1));
+		}
+		// step 3 - if human: present card on screen and ask for attribute
+		// if AI: automatically choose highest attribute
+		int chosenAttribute = -1;
+		if(playerChooseAttribute == 0) {
+			System.out.println(topCards.getCards().get(0));
+			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 6) -1;
+		}else {
+			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
+			for(int i = 0; i< characteristicsPlayerCard.length; i++) {
+				if(characteristicsPlayerCard[i].getValue() > chosenAttribute) {
+				chosenAttribute = characteristicsPlayerCard[i].getValue();
+				}
+			}
+		}
+		// step 4 - decides the winner or if a draw
+		int winner = 0;
+		boolean draw = false;
+		for(int i = 0; i < topCards.getCards().size(); i++) {
+			if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() > 
+			topCards.getCards().get(winner).getCharacteristics()[chosenAttribute].getValue()) {
+				winner = i;
+			}
+		}
+		for(int i = 0; i < topCards.getCards().size(); i++) {
+			if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() == 
+			topCards.getCards().get(winner).getCharacteristics()[chosenAttribute].getValue() && i != winner) {
+				draw = true;
+			}
+		}
+		// step 5 - show all the cards and the winner
+		topCards.print();
+		if(draw) {
+			System.out.println("It's a draw!");
+		}else {
+			System.out.println("Player " + winner + " won!");	
+		}
+		// step 6 - if draw: transfer all cards to the communal pile
+		// winner: transfer all cards from round to back of winners cards 
+		// also if winner and there is cards in the com pile, add them to back and empty com pile
+		if(draw) {
+			for(int i=0; i < topCards.getCards().size(); i++) {
+				communalPile.addCard(topCards.getCards().get(i));
+			}
+		}else {
+			for(int i=0; i < topCards.getCards().size(); i++) {
+				players[winner].getDeck().addCardToBack(topCards.getCards().get(i));
+			}
+			for(int i=0; i < communalPile.getCards().size(); i++) {
+				players[winner].getDeck().addCardToBack(communalPile.removeCard(i));
+			}
+			players[winner].roundWon();
+		}
+		// step 7 - if winner the game will end and show stats of that game but not coded yet and offer main menu to player 
+		// will also check if any player has 0 cards and eliminate them
+		// then offer human player to proceed to next round (not coded yet also) - commented below what should happen
+		boolean gameEnded = false;
+		for(int i = 0; i < players.length; i++) {
+			if(players[i].getDeck().getCards().size() == noOfCards) {
+				gameEnded = true;
+			}else if(players[i].getDeck().getCards().size() == 0) {
+				eliminated[i] = true;
+			}
+
+		}
+		// inside if for who plays next round (winner or random/next player)
+		//if there is a winner
+		//round
+		//else
+		//round
+		//round();
 	}
 
 }
