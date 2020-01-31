@@ -51,7 +51,7 @@
 
 		<nav>
 			<ul id="backtomain">
-				<li><a href="http://localhost:8080/toptrumps/stats">Back to Main</a></li>
+				<li><a href="http://localhost:8080/toptrumps/">Back to Main</a></li>
 			</ul>
 		</nav>
 
