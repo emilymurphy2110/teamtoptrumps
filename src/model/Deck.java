@@ -40,15 +40,15 @@ public class Deck {
 		int handSize = noOfCards / numHands;
 		// System.out.println(handSize);
 		Deck[] hands = new Deck[numHands];
-		// tried the for loop in a try/catch but still doesn't work and prints error
-		// don't think it should have for loop but not sure what else it would be as 
-		// i not initiated
-		try {
-			for (int i = 0; i < noOfCards; i++) {
-				hands[i%numHands].addCard(cards.get(i));
+		for (int i = 0; i < noOfCards; i++) {
+			if(hands[i%numHands] == null) {
+				hands[i&numHands] = new Deck();
 			}
-		}catch (Exception e) {
-			System.out.println("Error");
+			try {
+				hands[i%numHands].addCard(cards.get(i));
+			}catch (Exception e) {
+				System.out.println("Error");
+			}
 		}
 		return hands;
 	}
