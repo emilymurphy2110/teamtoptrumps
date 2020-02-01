@@ -110,6 +110,7 @@ public class TopTrumps {
 
 			Card newCard = new Card(values[0], characteristics);
 			newCards.addCard(newCard);
+			//System.out.println(newCards);
 		}
 		return newCards;
 	}
