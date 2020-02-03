@@ -69,21 +69,26 @@ public class TopTrumps {
 	public static void setUpGame(int noOfPlayers) {
 		// creates an array of players
 		players = new Player[noOfPlayers];
+		eliminated = new boolean[noOfPlayers];
+		for(int i=0; i<eliminated.length; i++) {
+			eliminated[i] = false;
+		}
 		// loads the cards
 		Deck cards = loadCards();
 		noOfCards = cards.getCards().size();
 		// shuffles the cards
 		cards.shuffle();
-		 System.out.println(cards.getCards().size());
+		// System.out.println(cards.getCards().size());
 		// splits the cards between the number of players
 		Deck[] hands = cards.split(noOfPlayers);
 		for (int i = 0; i < noOfPlayers; i++) {
 			players[i] = new Player(i, "", hands[i]);
-			 System.out.println(players[i]);
+			 //System.out.println(players[i]);
 		}
 		// randomise starting player
 		Random random = new Random();
 		int startingPlayer = random.nextInt(noOfPlayers);
+		round(startingPlayer, new Deck());
 	}
 
 	// method for loading cards
@@ -119,35 +124,51 @@ public class TopTrumps {
 		// step 2 - selects top card from each player
 		Deck topCards = new Deck();
 		for(int i = 0; i<players.length; i++) {
-			topCards.addCard(players[i].getDeck().removeCard(players[i].getDeck().getCards().size() - 1));
+			if(!eliminated[i]) {
+				topCards.addCard(players[i].getDeck().removeCard(players[i].getDeck().getCards().size() - 1));
+			}else {
+				topCards.addCard(null);
+			}
 		}
 		// step 3 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
 		if(playerChooseAttribute == 0) {
 			System.out.println(topCards.getCards().get(0));
-			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 6) -1;
+			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
+			System.out.println(playerChooseAttribute);
+			System.out.println(topCards.getCards().size());
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
 			for(int i = 0; i< characteristicsPlayerCard.length; i++) {
 				if(characteristicsPlayerCard[i].getValue() > chosenAttribute) {
-				chosenAttribute = characteristicsPlayerCard[i].getValue();
+				chosenAttribute = i;
 				}
 			}
 		}
 		// step 4 - decides the winner or if a draw
-		int winner = 0;
-		boolean draw = false;
-		for(int i = 0; i < topCards.getCards().size(); i++) {
-			if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() > 
-			topCards.getCards().get(winner).getCharacteristics()[chosenAttribute].getValue()) {
-				winner = i;
+		int roundWinner = -1;
+		for(int i=0;1<topCards.getCards().size();i++) {
+			if(topCards.getCards().get(i)!=null) {
+				roundWinner=i;
 			}
 		}
+		boolean draw = false;
 		for(int i = 0; i < topCards.getCards().size(); i++) {
-			if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() == 
-			topCards.getCards().get(winner).getCharacteristics()[chosenAttribute].getValue() && i != winner) {
-				draw = true;
+			if(!eliminated[i]) {
+				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() > 
+				topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue()) {
+					roundWinner = i;
+				}
+		}
+		}
+		
+		for(int i = 0; i < topCards.getCards().size(); i++) {
+			if(!eliminated[i]) {
+				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() == 
+					topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue() && i != roundWinner) {
+					draw = true;
+			}
 			}
 		}
 		// step 5 - show all the cards and the winner
@@ -155,7 +176,7 @@ public class TopTrumps {
 		if(draw) {
 			System.out.println("It's a draw!");
 		}else {
-			System.out.println("Player " + winner + " won!");	
+			System.out.println("Player " + roundWinner + " won!");	
 		}
 		// step 6 - if draw: transfer all cards to the communal pile
 		// winner: transfer all cards from round to back of winners cards 
@@ -166,31 +187,50 @@ public class TopTrumps {
 			}
 		}else {
 			for(int i=0; i < topCards.getCards().size(); i++) {
-				players[winner].getDeck().addCardToBack(topCards.getCards().get(i));
+				players[roundWinner].getDeck().addCardToBack(topCards.getCards().get(i));
 			}
 			for(int i=0; i < communalPile.getCards().size(); i++) {
-				players[winner].getDeck().addCardToBack(communalPile.removeCard(i));
+				players[roundWinner].getDeck().addCardToBack(communalPile.removeCard(i));
 			}
-			players[winner].roundWon();
+			players[roundWinner].roundWon();
 		}
 		// step 7 - if winner the game will end and show stats of that game but not coded yet and offer main menu to player 
 		// will also check if any player has 0 cards and eliminate them
 		// then offer human player to proceed to next round (not coded yet also) - commented below what should happen
 		boolean gameEnded = false;
+		int gameWinner = -1;
 		for(int i = 0; i < players.length; i++) {
 			if(players[i].getDeck().getCards().size() == noOfCards) {
 				gameEnded = true;
+				gameWinner = i;
 			}else if(players[i].getDeck().getCards().size() == 0) {
 				eliminated[i] = true;
 			}
-
 		}
-		// inside if for who plays next round (winner or random/next player)
-		//if there is a winner
-		//round
-		//else
-		//round
-		//round();
+		if(gameEnded) {
+			System.out.println(players[gameWinner].getName());
+			for(int i = 0; i<players.length; i++) {
+				System.out.println(players[i].getName() + " and they won " + players[i].getNoRoundsWon() + " rounds");
+			}
+			int choice = TopTrumpsCLIApplication.menu("Go back to main menu");
+			if(choice==0) {
+				System.exit(0);
+			}else if(choice==1) {
+				return;
+			}
+		}else {
+			if(draw) {
+				int nextPlayer = 0;
+				for(int i=1;i<players.length;i++) {
+					if(!eliminated[(playerChooseAttribute+i)%players.length]) {
+						nextPlayer = (playerChooseAttribute+i)%players.length;
+					}
+				}
+				round(nextPlayer, communalPile);
+			}else {
+			round(roundWinner, communalPile);
+			}
+		}
 	}
 
 }

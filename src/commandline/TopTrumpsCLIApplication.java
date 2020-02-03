@@ -61,12 +61,12 @@ public class TopTrumpsCLIApplication {
 			userWantsToQuit=true; // use this when the user wants to exit the game
 			
 			// calls the setUpGame function from TopTrumps and adds 4 players
-			TopTrumps.setUpGame(3);	
+			TopTrumps.setUpGame(4);	
 		}
 	}
 	
 	// method for creating a menu within the command line
-	private static int menu(String... strings) {
+	public static int menu(String... strings) {
 		while (true) {
 			System.out.println("Please select an option");
 			for (int i = 0; i < strings.length; i++) {

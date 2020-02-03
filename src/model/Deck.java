@@ -42,7 +42,7 @@ public class Deck {
 		Deck[] hands = new Deck[numHands];
 		for (int i = 0; i < noOfCards; i++) {
 			if(hands[i%numHands] == null) {
-				hands[i&numHands] = new Deck();
+				hands[i%numHands] = new Deck();
 			}
 			try {
 				hands[i%numHands].addCard(cards.get(i));
