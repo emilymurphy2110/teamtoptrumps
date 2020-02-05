@@ -41,7 +41,6 @@ public class TopTrumpsCLIApplication {
 		// Loop until the user wants to exit the game
 		
 		String name = textInput("What is your name?");
-		int noOfAI = -1;
 		
 		while (!userWantsToQuit) {
 
@@ -51,7 +50,8 @@ public class TopTrumpsCLIApplication {
 				break;
 			case 1: 
 				System.out.println("Starting game");
-				noOfAI = numberInput("Hello " + name + ", How many players do you want to play?", 1, 4);
+				// calls the setUpGame function from TopTrumps and adds x players
+				TopTrumps.setUpGame(3);
 				break;
 			case 2:
 				System.out.println("Past Game statistics");
@@ -61,7 +61,7 @@ public class TopTrumpsCLIApplication {
 			userWantsToQuit=true; // use this when the user wants to exit the game
 			
 			// calls the setUpGame function from TopTrumps and adds 4 players
-			TopTrumps.setUpGame(3);	
+			
 		}
 	}
 	

@@ -14,9 +14,15 @@ public class Card {
 	
 	@Override
 	public String toString() {
-		return "Card: " + name + ", cards characteristics: " + Arrays.toString(characteristics) + "\n";
+		String s = "";
+		s+="[" + this.name + "]";
+		for(int i = 0; i<characteristics.length;i++) {
+			s+= "\n" + (i+1) + " - " + characteristics[i].toString();
+		}
+		return s;
 	}
 
+	
 	public String getName() {
 		return name;
 	}

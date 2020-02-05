@@ -19,7 +19,7 @@ public class Game {
 	}
 	
 	// increments the number of rounds
-	public void noOfRounds() {
+	public void incrementRoundCounter() {
 		this.rounds++;
 	}
 	
