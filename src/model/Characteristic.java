@@ -12,7 +12,7 @@ public class Characteristic implements Comparable<Characteristic> {
 	}
 	@Override
 	public String toString() {
-		return "Characteristic: " + name + ", value: " + value;
+		return name + ": " + value;
 	}
 	
 	@Override

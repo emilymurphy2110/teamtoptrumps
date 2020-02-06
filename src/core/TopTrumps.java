@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -19,6 +20,7 @@ public class TopTrumps {
 	private static Player[] players;
 	public static int noOfCards;
 	private static boolean[] eliminated;
+	private static int roundCounter = 0;
 
 
 	/** This is the main class for the TopTrumps Applications */
@@ -121,6 +123,10 @@ public class TopTrumps {
 	}
 	
 	public static void round(int playerChooseAttribute, Deck communalPile) {
+		// step 1 
+		roundCounter++;
+		System.out.println("\n\nround: " + roundCounter);
+		System.out.println("you have " + (players[0].getDeck().getCards().size() - 1) + " cards in your hand");
 		// step 2 - selects top card from each player
 		Deck topCards = new Deck();
 		for(int i = 0; i<players.length; i++) {
@@ -130,15 +136,17 @@ public class TopTrumps {
 				topCards.addCard(null);
 			}
 		}
+		System.out.println(topCards.getCards().get(0));
 		// step 3 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
 		if(playerChooseAttribute == 0) {
-			System.out.println(topCards.getCards().get(0));
+			//System.out.println(topCards.getCards().get(0));
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
-			System.out.println(playerChooseAttribute);
-			System.out.println(topCards.getCards().size());
+//			System.out.println(topCards);
+//			System.out.println(topCards.getCards().size());
+//			System.out.println(Arrays.toString(eliminated));
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
 			for(int i = 0; i< characteristicsPlayerCard.length; i++) {
 				if(characteristicsPlayerCard[i].getValue() > chosenAttribute) {
@@ -148,7 +156,7 @@ public class TopTrumps {
 		}
 		// step 4 - decides the winner or if a draw
 		int roundWinner = -1;
-		for(int i=0;1<topCards.getCards().size();i++) {
+		for(int i=0;i<topCards.getCards().size();i++) {
 			if(topCards.getCards().get(i)!=null) {
 				roundWinner=i;
 			}
@@ -172,26 +180,25 @@ public class TopTrumps {
 			}
 		}
 		// step 5 - show all the cards and the winner
-		topCards.print();
 		if(draw) {
 			System.out.println("It's a draw!");
 		}else {
-			System.out.println("Player " + roundWinner + " won!");	
+			if(roundWinner == 0) {
+				System.out.println("You won! and your card was:");	
+			}else {
+				System.out.println("Player " + roundWinner + " won! and their card was:");	
+				}
+			System.out.println(topCards.getCards().get(roundWinner));
 		}
 		// step 6 - if draw: transfer all cards to the communal pile
 		// winner: transfer all cards from round to back of winners cards 
 		// also if winner and there is cards in the com pile, add them to back and empty com pile
 		if(draw) {
-			for(int i=0; i < topCards.getCards().size(); i++) {
-				communalPile.addCard(topCards.getCards().get(i));
-			}
+			Deck.transferHand(topCards, communalPile);
+			System.out.println("there is " + communalPile.getCards().size() + " cards in the communal pile");
 		}else {
-			for(int i=0; i < topCards.getCards().size(); i++) {
-				players[roundWinner].getDeck().addCardToBack(topCards.getCards().get(i));
-			}
-			for(int i=0; i < communalPile.getCards().size(); i++) {
-				players[roundWinner].getDeck().addCardToBack(communalPile.removeCard(i));
-			}
+			Deck.transferHand(topCards, players[roundWinner].getDeck());
+			Deck.transferHand(communalPile, players[roundWinner].getDeck());
 			players[roundWinner].roundWon();
 		}
 		// step 7 - if winner the game will end and show stats of that game but not coded yet and offer main menu to player 
@@ -200,7 +207,7 @@ public class TopTrumps {
 		boolean gameEnded = false;
 		int gameWinner = -1;
 		for(int i = 0; i < players.length; i++) {
-			if(players[i].getDeck().getCards().size() == noOfCards) {
+			if(players[i].getDeck().getCards().size() == noOfCards-communalPile.getCards().size()) {
 				gameEnded = true;
 				gameWinner = i;
 			}else if(players[i].getDeck().getCards().size() == 0) {
@@ -232,5 +239,4 @@ public class TopTrumps {
 			}
 		}
 	}
-
 }

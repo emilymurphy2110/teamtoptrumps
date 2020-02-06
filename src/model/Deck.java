@@ -53,6 +53,16 @@ public class Deck {
 		return hands;
 	}
 
+	public static void transferHand(Deck source, Deck target) {
+		while(!source.getCards().isEmpty()) {
+			if(source.getCards().get(0) == null) {
+				source.removeCard(0);
+			}else {
+				target.addCard(source.removeCard(0));
+			}
+		}
+	}
+	
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
