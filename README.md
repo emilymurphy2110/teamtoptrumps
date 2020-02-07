@@ -1,6 +1,11 @@
 # teamtoptrumps
 Hey guys, first I will say thank u to Emily for create this repository. Now I will give a quick guide of “Git”. Hope it will helps.
 
+**UPDATE** To test the DatabaseConnectionTest class from your own laptop:
+  - Open PGAdmin and create a new server with the name localhost, username postgres and your password
+  - On line 55 of the class, replace the content in the bracket with "jdbc:postgresql://localhost:5432/postgres", username, password"
+  - When you run the class, enter postgres as your username and the password as your password. This should connect to the database.
+
 How to clone: let us clone form the remote repository at the very start, we can use the following code:
   git clone https://github.com/emilymurphy2110/teamtoptrumps.git
 
