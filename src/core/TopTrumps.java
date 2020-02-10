@@ -162,7 +162,7 @@ public class TopTrumps {
 		// step 3 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
-		if(playerChooseAttribute == -1) {
+		if(playerChooseAttribute == 0) {
 			//System.out.println(topCards.getCards().get(0));
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
