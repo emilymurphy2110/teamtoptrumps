@@ -46,7 +46,7 @@ public class TopTrumpsRESTAPI {
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
 
-		TopTrumps.setUpGame(4);
+		TopTrumps.setUpGame(4, "Player");
 	}
 	
 	// ----------------------------------------------------
@@ -90,7 +90,7 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/newgame")
 	public void newGame() throws IOException {
-		TopTrumps.setUpGame(4);
+		TopTrumps.setUpGame(4, "Player");
 	}
 	
 }
