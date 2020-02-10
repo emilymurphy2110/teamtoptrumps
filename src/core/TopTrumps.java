@@ -288,7 +288,6 @@ public class TopTrumps {
 		if(printTestLog) {
 			logWriter.println(log);
 			logWriter.println("-----------------------");	
-			System.out.println("hello");
 		}
 	}
 	//two methods
