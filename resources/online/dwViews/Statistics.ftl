@@ -24,7 +24,73 @@
     	
     	<div class="container">
 
-			<!-- Add your HTML Here -->
+			<!-- CSS for statistics -->
+			
+			<style type="text/css">
+				div.heading1{
+					text-align:center;
+					font-family:arial;
+					font-size:24pt;
+				}
+
+				table,tr,td{
+					table-layout:fixed;	
+					width: 50%;
+					margin-left: auto;
+					margin-right: auto;
+					text-align:center;
+					border:1px solid black;
+				}
+
+				nav{
+					text-align:center;
+					font-family:arial;
+					font-size:10pt;
+				}
+
+	
+				ul#backtomain{
+   					 list-style-type:none;	
+				}
+			</style>
+			
+			<!-- HTML for statistics -->
+			
+			<body id="viewstatspage">
+			<div class="heading1">
+				<h1>Past Game Stats</h1>
+			</div>
+
+			<table style="width:75%">
+ 				 <tr>
+    				<td>Total Games Played</td>
+				<td>TEST</td>
+  				<tr>
+  					<td>Computer Wins</td>
+				<td>TEST</td>
+  				<tr>  
+ 			   <td>Human Wins</td>
+				<td>TEST</td>
+  				<tr>
+				<td>Average Draws Per Game</td>
+				<td>TEST</td>
+  			<tr>
+			<td>Most Rounds Played</td>
+			<td>TEST</td>
+ 			<tr>
+			</table>
+
+			<nav>
+				<ul id="backtomain">
+					<li><a href="http://localhost:8080/toptrumps">Back to Main</a></li>
+				</ul>
+			</nav>
+
+			</body>
+			
+			<!-- end of HTML -->
+
+
 		
 		</div>
 		

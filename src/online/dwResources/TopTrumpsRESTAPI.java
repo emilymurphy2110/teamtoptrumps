@@ -16,6 +16,9 @@ import online.configuration.TopTrumpsJSONConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import commandline.TopTrumpsCLIApplication;
+import core.TopTrumps;
+
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
 @Consumes(MediaType.APPLICATION_JSON) // This resource can take JSON content as input
@@ -42,9 +45,8 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
-		// ----------------------------------------------------
-		// Add relevant initalization here
-		// ----------------------------------------------------
+
+		TopTrumps.setUpGame(4, "Player");
 	}
 	
 	// ----------------------------------------------------
@@ -73,7 +75,7 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	@GET
-	@Path("/helloWord")
+	@Path("/jettyserver")
 	/**
 	 * Here is an example of how to read parameters provided in an HTML Get request.
 	 * @param Word - A word
@@ -81,7 +83,14 @@ public class TopTrumpsRESTAPI {
 	 * @throws IOException
 	 */
 	public String helloWord(@QueryParam("Word") String Word) throws IOException {
-		return "Hello "+Word;
+		return "hello this is a string" + Word;
+	}
+	
+	// new API for new game which calls the setUpGame method
+	@GET
+	@Path("/newgame")
+	public void newGame() throws IOException {
+		TopTrumps.setUpGame(4, "Player");
 	}
 	
 }
