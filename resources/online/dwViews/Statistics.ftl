@@ -22,76 +22,38 @@
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
-    	<div class="container">
-
-			<!-- CSS for statistics -->
-			
-			<style type="text/css">
-				div.heading1{
-					text-align:center;
-					font-family:arial;
-					font-size:24pt;
-				}
-
-				table,tr,td{
-					table-layout:fixed;	
-					width: 50%;
-					margin-left: auto;
-					margin-right: auto;
-					text-align:center;
-					border:1px solid black;
-				}
-
-				nav{
-					text-align:center;
-					font-family:arial;
-					font-size:10pt;
-				}
-
-	
-				ul#backtomain{
-   					 list-style-type:none;	
-				}
-			</style>
-			
-			<!-- HTML for statistics -->
-			
-			<body id="viewstatspage">
-			<div class="heading1">
-				<h1>Past Game Stats</h1>
-			</div>
-
-			<table style="width:75%">
- 				 <tr>
-    				<td>Total Games Played</td>
-				<td>TEST</td>
-  				<tr>
-  					<td>Computer Wins</td>
-				<td>TEST</td>
-  				<tr>  
- 			   <td>Human Wins</td>
-				<td>TEST</td>
-  				<tr>
-				<td>Average Draws Per Game</td>
-				<td>TEST</td>
-  			<tr>
-			<td>Most Rounds Played</td>
-			<td>TEST</td>
- 			<tr>
-			</table>
-
-			<nav>
-				<ul id="backtomain">
-					<li><a href="http://localhost:8080/toptrumps">Back to Main</a></li>
+    	<!-- Navagation Bar-->
+		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+			<a href="http://localhost:8080/toptrumps/" class="navbar-home">TopTrumps</a>
+			<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarMenu">				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a href="http://localhost:8080/toptrumps/game/" class="nav-link">New Game</a>
+					</li>
+					<li class="nav-item">							
+						<a href="http://localhost:8080/toptrumps/stats/" class="nav-link">Statistics</a>
+					</li>
 				</ul>
-			</nav>
+			</div>
+		</nav>
 
-			</body>
-			
-			<!-- end of HTML -->
+		<!-- Main Content -->
 
-
-		
+		<div class="container">
+			<div class="row justify-content-around">
+				<div class="alert alert-primary" role="alert">
+					<h2>Game Statistics</h2>
+				</div>
+				<div class="alert alert-primary" role="alert">
+					<p>Number of Games: </p>
+					<p>Number of Human Wins: </p>
+					<p>Number of AI Wins: </p>
+					<p>Average Draws per Game: </p>
+					<p>Longest Game: </p>
+				</div>
+			</div>
 		</div>
 		
 		<script type="text/javascript">
