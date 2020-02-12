@@ -150,7 +150,7 @@ public class TopTrumps {
 		Deck topCards = new Deck();
 		for(int i = 0; i<players.length; i++) {
 			if(!eliminated[i]) {
-				topCards.addCard(players[i].getDeck().removeCard(players[i].getDeck().getCards().size() - 1));
+				topCards.addCard(players[i].getDeck().removeCard(0));
 			}else {
 				topCards.addCard(null);
 			}
