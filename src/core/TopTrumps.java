@@ -1,6 +1,9 @@
 package core;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,6 +24,12 @@ public class TopTrumps {
 	public static int noOfCards;
 	private static boolean[] eliminated;
 	private static int roundCounter = 0;
+	private static PrintWriter logWriter;
+	// command line switches
+	// moved these out the main so they can be seen within the other methods
+	static boolean onlineMode = false;
+	static boolean commandLineMode = false;
+	static boolean printTestLog = false;
 
 
 	/** This is the main class for the TopTrumps Applications */
@@ -30,10 +39,7 @@ public class TopTrumps {
 		System.out.println("--- Top Trumps   ---");
 		System.out.println("--------------------");
 
-		// command line switches
-		boolean onlineMode = false;
-		boolean commandLineMode = false;
-		boolean printTestLog = false;
+		
 
 		// check the command line for what switches are active
 		for (String arg : args) {
@@ -68,7 +74,19 @@ public class TopTrumps {
 
 	// game logic for both command line and online mode
 
-	public static void setUpGame(int noOfPlayers) {
+	public static void setUpGame(int noOfPlayers, String playerName) {
+		// initiating the logWriter to save to toptrumps.log
+		// this will override the previous file
+		try {
+			logWriter = new PrintWriter("toptrumps.log", "UTF-8");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// creates an array of players
 		players = new Player[noOfPlayers];
 		eliminated = new boolean[noOfPlayers];
@@ -77,16 +95,20 @@ public class TopTrumps {
 		}
 		// loads the cards
 		Deck cards = loadCards();
+		writeLog(cards);
 		noOfCards = cards.getCards().size();
 		// shuffles the cards
 		cards.shuffle();
+		writeLog(cards);
 		// System.out.println(cards.getCards().size());
 		// splits the cards between the number of players
 		Deck[] hands = cards.split(noOfPlayers);
 		for (int i = 0; i < noOfPlayers; i++) {
-			players[i] = new Player(i, "", hands[i]);
-			 //System.out.println(players[i]);
+			players[i] = new Player(i, hands[i]);
+			if(i==0)players[0].setName(playerName);
+			writeLog(players[i] + "cards are: \n" + players[i].getDeck().toString());
 		}
+		
 		// randomise starting player
 		Random random = new Random();
 		int startingPlayer = random.nextInt(noOfPlayers);
@@ -126,7 +148,7 @@ public class TopTrumps {
 		// step 1 
 		roundCounter++;
 		System.out.println("\n\nround: " + roundCounter);
-		System.out.println("you have " + (players[0].getDeck().getCards().size() - 1) + " cards in your hand");
+		System.out.println("you have " + (players[0].getDeck().getCards().size()) + " cards in your hand");
 		// step 2 - selects top card from each player
 		Deck topCards = new Deck();
 		for(int i = 0; i<players.length; i++) {
@@ -136,10 +158,14 @@ public class TopTrumps {
 				topCards.addCard(null);
 			}
 		}
-		System.out.println(topCards.getCards().get(0));
+		writeLog("The cards in play: \n" + topCards.toString());
+		if(!eliminated[0]) {
+			System.out.println(topCards.getCards().get(0));
+		}
 		// step 3 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
+		// change to -1 to have an all AI game, change to 0 to have a human player
 		if(playerChooseAttribute == 0) {
 			//System.out.println(topCards.getCards().get(0));
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
@@ -154,6 +180,14 @@ public class TopTrumps {
 				}
 			}
 		}
+		String s = "";
+		s += "The category selected is: " + topCards.getCards().get(playerChooseAttribute).getCharacteristics()[chosenAttribute].getName();
+		for(int i = 0; i<players.length;i++) {
+			if(!eliminated[i]) {
+				s+= "\n Player " + (i+1) + " value is: " + topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue();
+			}
+		}
+		writeLog(s);
 		// step 4 - decides the winner or if a draw
 		int roundWinner = -1;
 		for(int i=0;i<topCards.getCards().size();i++) {
@@ -186,7 +220,7 @@ public class TopTrumps {
 			if(roundWinner == 0) {
 				System.out.println("You won! and your card was:");	
 			}else {
-				System.out.println("Player " + roundWinner + " won! and their card was:");	
+				System.out.println(players[roundWinner].getName() + " won! and their card was:");	
 				}
 			System.out.println(topCards.getCards().get(roundWinner));
 		}
@@ -195,11 +229,22 @@ public class TopTrumps {
 		// also if winner and there is cards in the com pile, add them to back and empty com pile
 		if(draw) {
 			Deck.transferHand(topCards, communalPile);
+			writeLog("cards added to the communal pile: \n" + communalPile.toString());
 			System.out.println("there is " + communalPile.getCards().size() + " cards in the communal pile");
 		}else {
 			Deck.transferHand(topCards, players[roundWinner].getDeck());
 			Deck.transferHand(communalPile, players[roundWinner].getDeck());
+			if(!communalPile.getCards().isEmpty()) {
+				writeLog("cards removed from the communal pile: \n" + communalPile.toString());
+			}
 			players[roundWinner].roundWon();
+		}
+		for (int i = 0; i < players.length; i++) {
+			if(i==0) {
+				writeLog("the human player cards are: \n" + players[i].getDeck().toString());
+			}else {
+				writeLog("the computer " + i + "players cards are: \n" + players[i].getDeck().toString());
+			}
 		}
 		// step 7 - if winner the game will end and show stats of that game but not coded yet and offer main menu to player 
 		// will also check if any player has 0 cards and eliminate them
@@ -214,8 +259,11 @@ public class TopTrumps {
 				eliminated[i] = true;
 			}
 		}
+		
 		if(gameEnded) {
-			System.out.println(players[gameWinner].getName());
+			System.out.println("\nThe winner is: " + players[gameWinner].getName());
+			writeLog("The winner is: " + players[gameWinner].getName());
+			logWriter.close();
 			for(int i = 0; i<players.length; i++) {
 				System.out.println(players[i].getName() + " and they won " + players[i].getNoRoundsWon() + " rounds");
 			}
@@ -239,4 +287,14 @@ public class TopTrumps {
 			}
 		}
 	}
+	
+	public static void writeLog(Object log) {
+		if(printTestLog) {
+			logWriter.println(log);
+			logWriter.println("-----------------------");	
+		}
+	}
+	//two methods
+	//one method to update and one to download
+	//one method will submit a query that will update the database
 }
