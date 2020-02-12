@@ -34,11 +34,11 @@ public class DatabaseConnectionTest {
 
 		System.out.print("Enter Username: ");
 
-		String username = input.nextLine();
+		//String username = input.nextLine();
 
 		System.out.print("Enter Password: ");
 
-		String password = input.nextLine();
+		//String password = input.nextLine();
 
 		System.out.println();
 
@@ -52,9 +52,9 @@ public class DatabaseConnectionTest {
 
 			c = DriverManager
 
-					.getConnection("jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/postgres",
+					.getConnection("jdbc:postgresql://52.24.215.108:5432/TomTrumps",
 
-							"m_19_" + username, password);
+							"TomTrumps", "TomTrumps");
 
 			c.close();
 

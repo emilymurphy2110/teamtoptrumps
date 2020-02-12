@@ -26,6 +26,7 @@ public class TopTrumps {
 	private static int roundCounter = 0;
 	private static PrintWriter logWriter;
 	// command line switches
+	// moved these out the main so they can be seen within the other methods
 	static boolean onlineMode = false;
 	static boolean commandLineMode = false;
 	static boolean printTestLog = false;
@@ -74,6 +75,8 @@ public class TopTrumps {
 	// game logic for both command line and online mode
 
 	public static void setUpGame(int noOfPlayers, String playerName) {
+		// initiating the logWriter to save to toptrumps.log
+		// this will override the previous file
 		try {
 			logWriter = new PrintWriter("toptrumps.log", "UTF-8");
 		} catch (FileNotFoundException e) {
@@ -162,6 +165,7 @@ public class TopTrumps {
 		// step 3 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
+		// change to -1 to have an all AI game, change to 0 to have a human player
 		if(playerChooseAttribute == 0) {
 			//System.out.println(topCards.getCards().get(0));
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
@@ -231,7 +235,7 @@ public class TopTrumps {
 			Deck.transferHand(topCards, players[roundWinner].getDeck());
 			Deck.transferHand(communalPile, players[roundWinner].getDeck());
 			if(!communalPile.getCards().isEmpty()) {
-				writeLog("cards removed to the communal pile: \n" + communalPile.toString());
+				writeLog("cards removed from the communal pile: \n" + communalPile.toString());
 			}
 			players[roundWinner].roundWon();
 		}
