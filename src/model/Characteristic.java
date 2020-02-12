@@ -12,12 +12,11 @@ public class Characteristic implements Comparable<Characteristic> {
 	}
 	@Override
 	public String toString() {
-		return "Characteristic chosen is " + name + ", and the value is " + value;
+		return name + ": " + value;
 	}
 	
 	@Override
 	public int compareTo(Characteristic o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	

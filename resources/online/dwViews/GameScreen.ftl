@@ -22,11 +22,44 @@
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
-    	<div class="container">
+    	<!-- CSS  for game screen -->
+    	<style type="text/css">
+    		div.heading1{
+				text-align:center;
+				font-family:arial;
+				font-size:24pt;
+			}		
 
-			<!-- Add your HTML Here -->
+			nav{
+				text-align:center;
+				font-family:arial;
+				font-size:10pt;
+			}
+			
+			ul#backtomain{
+    			list-style-type:none;	
+			}
+			
+		</style>
 		
+		<!-- HTML for game screen -->
+		
+	<body id="gameplaypage">
+		<div class="heading1">
+			<h1></h1>
 		</div>
+
+		<nav>
+			<ul id="backtomain">
+				<li><a href="http://localhost:8080/toptrumps/">Back to Main</a></li>
+			</ul>
+		</nav>
+
+	</body>
+
+		</div>
+		
+		<!-- End of HTML -->
 		
 		<script type="text/javascript">
 		
@@ -37,9 +70,7 @@
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
 				
-				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
+				newGame();
 				
 			}
 			
@@ -116,6 +147,21 @@
  					var responseText = xhr.response; // the text of the response
 					alert(responseText); // lets produce an alert
 				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
+			function newGame() {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newgame"); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
