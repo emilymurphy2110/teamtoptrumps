@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import model.Game;
+import model.GameData;
 import model.Player;
 
 
@@ -26,7 +26,7 @@ public class DatabaseLogic {
 	 * 
 	 */
 
-	public static void main(String args[]) {
+	public static void initiateDatabase() {
 //		final String username = "TomTrumps";
 //		final String password = "TomTrumps";
 //		final String database = "jdbc:postgresql://52.24.215.108:5432/TomTrumps";
@@ -44,62 +44,49 @@ public class DatabaseLogic {
 
 			System.exit(0);
 			
-		} finally {
-			try {
-				// close connection
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (c != null) {
-					c.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		System.out.println("Database is online and available");
+	}
+	
+	public static void disconnectDatabase() {
+		try {
+			// close connection
+			if (stmt != null) {
+				stmt.close();
+			}
+			if (c != null) {
+				c.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	//connect to database method
 	
 	//disconnect from database
 	
 	
-// write game stats
-//	public void writeGameStats(Game gameStats) {
-//		Player[] players = gameStats.getPlayers();
-//		int winner = gameStats.getWinner();
-//		
-//		int gameID = getOverallGames() + 1;
-//		int noOfDraws = gameStats.getDraws();
-//		int noOfRounds = gameStats.getRounds();
-//		int gameWinner = 1;
-//		
-//	}
+
 	
 	// need to use in model class to set values to the variables after the game, which are then used to insert data to the database
-	public void insertRecord(int gameID, int noOfDraws, String winner, int noOfRounds) {
+	public static void insertRecord(GameData game) {
 		try {
 			stmt = c.createStatement();
 			// insert game stats after game played into the database
-			stmt.executeUpdate("INSERT INTO GameStats " 
-					+ "VALUES (" + gameID + ", " + noOfDraws + ", " + winner + ", " + noOfRounds + ")");
+			stmt.executeUpdate("INSERT INTO TomTrumps2 (NumberOfDraws, Winner, NumberOfRounds)" 
+					+ "VALUES (" + (game.getDraws() + ", " + game.getWinner() + ", " + game.getRounds() + ")"));
 			
 			stmt.close();
-			c.close();
-			c=null;
 		} catch (SQLException e) {
 			System.out.println("Insert failed");
 			e.printStackTrace();
 		}
-		
-		String insertRecord = "INSERT INTO GameStats (GameID, NumberOfDraws, Winner, NumberOfRounds) "
-				+ "VALUES ()";
 	}
 	
 	
 	
-	public int getOverallGames() {
-		String getOverallGames = "SELECT GameID FROM GameStats ORDER BY GameID DESC LIMIT 1";
+	public static int getOverallGames() {
+		String getOverallGames = "SELECT GameID FROM TomTrumps2 ORDER BY GameID DESC LIMIT 1";
 		int overallGames = 0;
 		
 		try {
@@ -110,111 +97,100 @@ public class DatabaseLogic {
 			}
 		}
 		catch (Exception e) {
-			System.exit(0);
+			e.printStackTrace();
 		}
 		return overallGames;
 		}
 	
-	public int getCompWins() {
+	public static int getCompWins() {
 		Statement stmt = null;
-		String getCompWins = "SELECT COUNT (Winner) FROM GameStats WHERE NOT (Winner = 0)";
+		String getCompWins = "SELECT COUNT (Winner) as ComputerWins FROM TomTrumps2 WHERE NOT (Winner = 0)";
 		int compWins = 0;
 		
 		try {
 			stmt = c.createStatement();
 			ResultSet stats = stmt.executeQuery(getCompWins);
 			while (stats.next()) {
-				compWins = stats.getInt("GameID");
+				compWins = stats.getInt("ComputerWins");
 			}
 		}
 		catch (Exception e) {
-			System.exit(0);
+			e.printStackTrace();
 		}
 		return compWins;
 	}
 	
-	public int getPlayerWins() {
+	public static int getPlayerWins() {
 		Statement stmt = null;
-		String getPlayerWins = "SELECT COUNT (Winner) FROM GameStats WHERE (Winner = 0)";
+		String getPlayerWins = "SELECT COUNT (Winner) as PlayerWins FROM TomTrumps2 WHERE (Winner = 0)";
 		int playerWins = 0;
 		
 		try {
 			stmt = c.createStatement();
 			ResultSet stats = stmt.executeQuery(getPlayerWins);
 			while (stats.next()) {
-				playerWins = stats.getInt("GameID");
+				playerWins = stats.getInt("PlayerWins");
 			}
 		}
 		catch (Exception e) {
-			System.exit(0);
+			e.printStackTrace();
 		}
 		return playerWins;
 	}
 	
-	public int getAverageDraws() {
+	public static int getAverageDraws() {
 		Statement stmt = null;
-		String getAverageDraws = "SELECT CAST (AVG(NumberOfDraws) AS DECIMAL(20,2)) FROM GameStats";
+		String getAverageDraws = "SELECT AVG(NumberOfDraws) AS Draws  FROM TomTrumps2";
 		int averageDraws = 0;
 		
 		try {
 			stmt = c.createStatement();
 			ResultSet stats = stmt.executeQuery(getAverageDraws);
 			while (stats.next()) {
-				averageDraws = stats.getInt("GameID");
+				averageDraws = stats.getInt("Draws");
 			}
 		}
 		catch (Exception e) {
-			System.exit(0);
+			e.printStackTrace();
 		}
 		return averageDraws;
 	}
 
-	public int getMostRoundsPlayed() {
+	public static int getMostRoundsPlayed() {
 		Statement stmt = null;
-		String getMostRoundsPlayed = "SELECT MAX (NumberOfRounds) FROM GameStats";
+		String getMostRoundsPlayed = "SELECT MAX (NumberOfRounds) as Rounds FROM TomTrumps2";
 		int mostRoundsPlayed = 0;
 		
 		try {
 			stmt = c.createStatement();
 			ResultSet stats = stmt.executeQuery(getMostRoundsPlayed);
 			while (stats.next()) {
-				mostRoundsPlayed = stats.getInt("GameID");
+				mostRoundsPlayed = stats.getInt("Rounds");
 			}
 		}
 		catch (Exception e) {
-			System.exit(0);
+			e.printStackTrace();
 		}
 		return mostRoundsPlayed;
 	}
 	
-	// insert new record
 	
 	// returns the statistics from the database of all games played
-	public DatabaseDownload getDatabaseStats() {
-		DatabaseDownload download = new DatabaseDownload();
-		
-		int overallGames = 0;
-		int compWins = 0;
-		int playerWins = 0;
-		int averageDraws = 0;
-		int mostRoundsPlayed = 0;
+	public static int [] getDatabaseStats() {
+		int [] downloadDatabase = new int [5];
 		
 		try { 
-			overallGames = getOverallGames();
-			compWins = getCompWins();
-			playerWins = getPlayerWins();
-			averageDraws = getAverageDraws();
-			mostRoundsPlayed = getMostRoundsPlayed();
+			downloadDatabase[0] = (getOverallGames());
+			downloadDatabase[1] = (getCompWins());
+			downloadDatabase[2] = (getPlayerWins());
+			downloadDatabase[3] = (getAverageDraws());
+			downloadDatabase[4] = (getMostRoundsPlayed());
 		}catch(Exception e) {
 			System.out.println("Cannot get statistics from database.");	
 		}
-		download.setOverallGames(overallGames);
-		download.setCompWins(compWins);
-		download.setPlayerWins(playerWins);
-		download.setAverageDraws(averageDraws);
-		download.setMostRoundsPlayed(mostRoundsPlayed);
 		
-		return download;
+		
+		return downloadDatabase;
 		
 	}
 }

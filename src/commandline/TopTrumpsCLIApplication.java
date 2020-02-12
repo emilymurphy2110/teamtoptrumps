@@ -11,10 +11,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 import core.TopTrumps;
+import database.DatabaseLogic;
 import model.Card;
 import model.Characteristic;
 import model.Deck;
-import model.Game;
+import model.GameData;
 import model.Player;
 import online.configuration.TopTrumpsJSONConfiguration;
 
@@ -24,7 +25,8 @@ import online.configuration.TopTrumpsJSONConfiguration;
 
 public class TopTrumpsCLIApplication {
 
-	public static Game game;
+	public static GameData game;
+	public static String playerName;
 	/**
 	 * This main method is called by TopTrumps.java when the user specifies that they want to run in
 	 * command line mode. The contents of args[0] is whether we should write game logs to a file.
@@ -40,29 +42,27 @@ public class TopTrumpsCLIApplication {
 		
 		// Loop until the user wants to exit the game
 		
-		String playerName = textInput("What is your name?");
+		playerName = textInput("What is your name?");
 		
-		while (!userWantsToQuit) {
-
-			switch(menu("Play game", "Past Game Statistics")) {
-			case 0: 
-				userWantsToQuit=true; 
-				break;
-			case 1: 
-				System.out.println("Starting game");
-				// calls the setUpGame function from TopTrumps and adds x players
-				TopTrumps.setUpGame(3, playerName);
-				break;
-			case 2:
-				System.out.println("Past Game statistics");
-				break;
-		}
-			
-			userWantsToQuit=true; // use this when the user wants to exit the game
-			
-			// calls the setUpGame function from TopTrumps and adds 4 players
-			
-		}
+		mainMenu();
+	}
+	
+	public static void mainMenu() {
+		switch(menu("Play game", "Past Game Statistics")) {
+		case 0: 
+			DatabaseLogic.disconnectDatabase();
+			System.exit(0); 
+			break;
+		case 1: 
+			System.out.println("Starting game");
+			// calls the setUpGame function from TopTrumps and adds x players
+			TopTrumps.setUpGame(3, playerName);
+			break;
+		case 2:
+			System.out.println("Past Game statistics");
+			TopTrumps.printStats();
+			break;
+	}
 	}
 	
 	// method for creating a menu within the command line

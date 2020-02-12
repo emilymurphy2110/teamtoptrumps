@@ -20,10 +20,10 @@ import com.mysql.jdbc.Statement;
 public class CreateTable {
 	private static Connection c = null;
 	private static java.sql.Statement stmt = null;
-	private static final String CREATE_TABLE_SQL="CREATE TABLE TomTrumps ("
-			+ "GameID INT NOT NULL,"
+	private static final String CREATE_TABLE_SQL="CREATE TABLE TomTrumps2 ("
+			+ "GameID SERIAL,"
 			+ "NumberOfDraws INT NOT NULL,"
-			+ "Winner VARCHAR(30) NOT NULL,"
+			+ "Winner INT NOT NULL,"
 			+ "NumberOfRounds INT NOT NULL,"
 			+ "PRIMARY KEY(GameID))";
 

@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Random;
 
 import commandline.TopTrumpsCLIApplication;
+import database.DatabaseLogic;
 import model.Card;
 import model.Characteristic;
 import model.Deck;
+import model.GameData;
 import model.Player;
 import online.TopTrumpsOnlineApplication;
 
@@ -25,6 +27,7 @@ public class TopTrumps {
 	private static boolean[] eliminated;
 	private static int roundCounter = 0;
 	private static PrintWriter logWriter;
+	private static GameData game = new GameData();
 	// command line switches
 	// moved these out the main so they can be seen within the other methods
 	static boolean onlineMode = false;
@@ -39,6 +42,7 @@ public class TopTrumps {
 		System.out.println("--- Top Trumps   ---");
 		System.out.println("--------------------");
 
+		DatabaseLogic.initiateDatabase();
 		
 
 		// check the command line for what switches are active
@@ -166,7 +170,7 @@ public class TopTrumps {
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
 		// change to -1 to have an all AI game, change to 0 to have a human player
-		if(playerChooseAttribute == 0) {
+		if(playerChooseAttribute == -1) {
 			//System.out.println(topCards.getCards().get(0));
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
@@ -231,6 +235,7 @@ public class TopTrumps {
 			Deck.transferHand(topCards, communalPile);
 			writeLog("cards added to the communal pile: \n" + communalPile.toString());
 			System.out.println("there is " + communalPile.getCards().size() + " cards in the communal pile");
+			game.incrementDraws();
 		}else {
 			Deck.transferHand(topCards, players[roundWinner].getDeck());
 			Deck.transferHand(communalPile, players[roundWinner].getDeck());
@@ -251,6 +256,7 @@ public class TopTrumps {
 		// then offer human player to proceed to next round (not coded yet also) - commented below what should happen
 		boolean gameEnded = false;
 		int gameWinner = -1;
+		game.incrementRoundCounter();
 		for(int i = 0; i < players.length; i++) {
 			if(players[i].getDeck().getCards().size() == noOfCards-communalPile.getCards().size()) {
 				gameEnded = true;
@@ -263,15 +269,18 @@ public class TopTrumps {
 		if(gameEnded) {
 			System.out.println("\nThe winner is: " + players[gameWinner].getName());
 			writeLog("The winner is: " + players[gameWinner].getName());
+			game.setWinner(gameWinner);
+			DatabaseLogic.insertRecord(game);
 			logWriter.close();
 			for(int i = 0; i<players.length; i++) {
 				System.out.println(players[i].getName() + " and they won " + players[i].getNoRoundsWon() + " rounds");
 			}
 			int choice = TopTrumpsCLIApplication.menu("Go back to main menu");
 			if(choice==0) {
+				DatabaseLogic.disconnectDatabase();
 				System.exit(0);
 			}else if(choice==1) {
-				return;
+				TopTrumpsCLIApplication.mainMenu();
 			}
 		}else {
 			if(draw) {
@@ -297,4 +306,10 @@ public class TopTrumps {
 	//two methods
 	//one method to update and one to download
 	//one method will submit a query that will update the database
+
+	public static void printStats() {
+		//DatabaseLogic.getDatabaseStats();
+		System.out.println(Arrays.toString(DatabaseLogic.getDatabaseStats()));
+		System.out.println("hello");
+	}
 }
