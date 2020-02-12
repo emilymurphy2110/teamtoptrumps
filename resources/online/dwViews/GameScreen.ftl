@@ -21,39 +21,134 @@
 	</head>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-    	<!-- CSS  for game screen -->
-    	<style type="text/css">
-    		div.heading1{
-				text-align:center;
-				font-family:arial;
-				font-size:24pt;
-			}		
+  		<!-- Navagation Bar-->
+		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+			<a href="http://localhost:8080/toptrumps/" class="navbar-brand">TopTrumps</a>
+			<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarMenu">				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a href="http://localhost:8080/toptrumps/game/" class="nav-link">New Game</a>
+					</li>
+					<li class="nav-item">							
+						<a href="http://localhost:8080/toptrumps/stats/" class="nav-link">Statistics</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-			nav{
-				text-align:center;
-				font-family:arial;
-				font-size:10pt;
-			}
-			
-			ul#backtomain{
-    			list-style-type:none;	
-			}
-			
-		</style>
-		
-		<!-- HTML for game screen -->
-		
-	<body id="gameplaypage">
-		<div class="heading1">
-			<h1></h1>
+		<!-- Main Content -->
+		<div class="container">
+			<div class="row">
+				<div class="alert alert-primary" id="actionIfo" role="alert">
+					Text about round and what's happening
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="card" style="width: 18rem;">
+						<div class="card-body">
+							<h5 class="card-title" id="activePlayer">The Active Player is...</h5>
+							<p id="selected">They selected... </p>
+						<div class="dropdown">
+ 							<button class="btn btn-secondary dropdown-toggle" type="button" id="charSelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Next: Category Selection
+ 							</button>
+ 							<div class="dropdown-menu" aria-labelledby="charSelection">
+   								<button class="dropdown-item" id="speed" type="button">Select: Speed</button>
+   								<button class="dropdown-item" id="cargo" type="button">Select: Cargo</button>
+    							<button class="dropdown-item" id="size" type="button">Select: Size</button>
+    							<button class="dropdown-item" id="range" type="button">Select: Range</button>
+    							<button class="dropdown-item" id="firepower" type="button">Select: Firepower</button>
+ 							</div>
+						</div>
+						<button type="button" id="newRound" class="btn btn-success">New Round</button>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card" id="human" style="width: 18rem;">
+					  <img src="..." class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <h5 class="card-title">Card title</h5>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">Speed: </li>
+					    <li class="list-group-item">Cargo: </li>
+					    <li class="list-group-item">Size: </li>
+					    <li class="list-group-item">Range: </li>
+					    <li class="list-group-item">Firepower: </li>
+					  </ul>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card" id="ai1" style="width: 18rem;">
+					  <img src="..." class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <h5 class="card-title">Card title</h5>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">Speed: </li>
+					    <li class="list-group-item">Cargo: </li>
+					    <li class="list-group-item">Size: </li>
+					    <li class="list-group-item">Range: </li>
+					    <li class="list-group-item">Firepower: </li>
+					  </ul>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card" id="ai2" style="width: 18rem;">
+					  <img src="..." class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <h5 class="card-title">Card title</h5>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">Speed: </li>
+					    <li class="list-group-item">Cargo: </li>
+					    <li class="list-group-item">Size: </li>
+					    <li class="list-group-item">Range: </li>
+					    <li class="list-group-item">Firepower: </li>
+					  </ul>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+				</div>
+				<div class="col">
+				</div>
+				<div class="col">
+					<div class="card" id="ai3" style="width: 18rem;">
+					  <img src="..." class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <h5 class="card-title">Card title</h5>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">Speed: </li>
+					    <li class="list-group-item">Cargo: </li>
+					    <li class="list-group-item">Size: </li>
+					    <li class="list-group-item">Range: </li>
+					    <li class="list-group-item">Firepower: </li>
+					  </ul>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card" id="ai4" style="width: 18rem;">
+					  <img src="..." class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <h5 class="card-title">Card title</h5>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">Speed: </li>
+					    <li class="list-group-item">Cargo: </li>
+					    <li class="list-group-item">Size: </li>
+					    <li class="list-group-item">Range: </li>
+					    <li class="list-group-item">Firepower: </li>
+					  </ul>
+					</div>
+				</div>
+			</div>
 		</div>
 
-		<nav>
-			<ul id="backtomain">
-				<li><a href="http://localhost:8080/toptrumps/">Back to Main</a></li>
-			</ul>
-		</nav>
 
 	</body>
 
@@ -70,7 +165,33 @@
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
 				
-				newGame();
+				function newGame() {
+			
+					// First create a CORS request, this is the message we are going to send (a get request in this case)
+					var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newgame"); // Request type and URL+parameters
+				
+					// Message is not sent yet, but we can check that the browser supports CORS
+					if (!xhr) {
+  						alert("CORS not supported");
+					}
+				
+					// We have done everything we need to prepare the CORS request, so send it
+					xhr.send();		
+				}
+
+				function loadCards() {
+			
+					// First create a CORS request, this is the message we are going to send (a get request in this case)
+					var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newgame"); // Request type and URL+parameters
+				
+					// Message is not sent yet, but we can check that the browser supports CORS
+					if (!xhr) {
+  						alert("CORS not supported");
+					}
+				
+					// We have done everything we need to prepare the CORS request, so send it
+					xhr.send();		
+				}
 				
 			}
 			
@@ -111,61 +232,7 @@
 			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
 			function helloJSONList() {
 			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloJSONList"); // Request type and URL
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
 			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloWord(word) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloWord?Word="+word); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function newGame() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newgame"); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
 
 		</script>
 		

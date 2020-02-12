@@ -21,63 +21,48 @@
 	</head>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-		<!-- CSS for selection screen -->
-    	
-    	<style type="text/css">
-    		div.heading1{
-				text-align:center;
-				font-family:arial;
-				font-size:24pt;
-			}
-
-		<!-- Selection Buttons Style -->
-
-			nav{
-				text-align:center;
-				font-family:arial;
-				font-size:16pt;
-			}
-
-	
-			ul#newgame{
-   				 list-style-type:none;	
-			}
-
-			ul#viewstats{
-   				 list-style-type:none;	
-			}
-			
-		</style>
 		
-		<!-- HTML for selection screen -->
-		
-    	<div class="container">
 
-			<body id="welcomepage">
-			<div class="heading1">
-			<h1>Welcome!</h1>
+		<!-- Navagation Bar-->
+		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+			<a href="http://localhost:8080/toptrumps/" class="navbar-brand">TopTrumps</a>
+			<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarMenu">				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a href="http://localhost:8080/toptrumps/game/" class="nav-link">New Game</a>
+					</li>
+					<li class="nav-item">							<a href="http://localhost:8080/toptrumps/stats/" class="nav-link">Statistics</a>
+					</li>
+				</ul>
 			</div>
+		</nav>
 
-			<!--Game/Stats Selection-->
+			<!-- Main Content -->
+		<div class="container my-container">
+			<div class="row justify-content-around my-row">
+				<div class="col my-col">						
+					<div class="alert alert-primary" role="alert">
+						<a href="http://localhost:8080/toptrumps/game/" class="alert-link">New Game</a>
+					</div>
+					<div class="alert alert-light" role="alert">
+						Start a new Top Trumps Game
+					</div>
+				</div>
+				<div class="col my-col">						
+					<div class="alert alert-primary" role="alert">
+						<a href="http://localhost:8080/toptrumps/stats/" class="alert-link">Game Statistics</a>
+					</div>
+					<div class="alert alert-light" role="alert">
+							View Statistics from previous Games			
+					</div>
+				</div>
+			</div>
+		</div>	
 
-			<nav>
-				<ul id="newgame">
-					<li><a href="http://localhost:8080/toptrumps/game/">New Game</a></li>
-				</ul>
-			</nav>
-
-			<nav>
-				<ul id="viewstats">
-					<li><a href="http://localhost:8080/toptrumps/stats">View Stats</a></li>
-				</ul>
-			</nav>
-
-			<!--Main Content-->
-
-			</body>
+		</body>
 		
-		</div>
 		
 		<!-- End of HTML -->
 		
@@ -176,5 +161,4 @@
 
 		</script>
 		
-		</body>
 </html>
