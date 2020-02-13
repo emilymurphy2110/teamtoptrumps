@@ -58,7 +58,7 @@ public class Deck {
 			if(source.getCards().get(0) == null) {
 				source.removeCard(0);
 			}else {
-				target.addCard(source.removeCard(0));
+				target.addCardToBack(source.removeCard(0));
 			}
 		}
 	}
