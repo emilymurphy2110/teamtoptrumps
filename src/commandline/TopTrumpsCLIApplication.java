@@ -61,6 +61,7 @@ public class TopTrumpsCLIApplication {
 		case 2:
 			System.out.println("Past Game statistics");
 			TopTrumps.printStats();
+			mainMenu();
 			break;
 	}
 	}
