@@ -57,7 +57,7 @@ public class TopTrumps {
 
 		}
 
-		// We cannot run online and command line mode simultaniously
+		// We cannot run online and command line mode simultaneously
 		if (onlineMode && commandLineMode) {
 			System.out.println("ERROR: Both online and command line mode selected, select one or the other!");
 			System.exit(0);
@@ -143,7 +143,6 @@ public class TopTrumps {
 
 			Card newCard = new Card(values[0], characteristics);
 			newCards.addCard(newCard);
-			//System.out.println(newCards);
 		}
 		return newCards;
 	}
@@ -171,12 +170,8 @@ public class TopTrumps {
 		int chosenAttribute = -1;
 		// change to -1 to have an all AI game, change to 0 to have a human player
 		if(playerChooseAttribute == -1) {
-			//System.out.println(topCards.getCards().get(0));
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
-//			System.out.println(topCards);
-//			System.out.println(topCards.getCards().size());
-//			System.out.println(Arrays.toString(eliminated));
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
 			for(int i = 0; i< characteristicsPlayerCard.length; i++) {
 				if(characteristicsPlayerCard[i].getValue() > chosenAttribute) {
@@ -297,19 +292,17 @@ public class TopTrumps {
 		}
 	}
 	
+	// if '-t' has been called, writeLog() will print to the log file
 	public static void writeLog(Object log) {
 		if(printTestLog) {
 			logWriter.println(log);
 			logWriter.println("-----------------------");	
 		}
 	}
-	//two methods
-	//one method to update and one to download
-	//one method will submit a query that will update the database
-
+	
+	// prints statistics for commandline
 	public static void printStats() {
 		//DatabaseLogic.getDatabaseStats();
 		System.out.println(Arrays.toString(DatabaseLogic.getDatabaseStats()));
-		System.out.println("hello");
 	}
 }
