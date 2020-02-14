@@ -27,15 +27,15 @@ public class DatabaseLogic {
 	 */
 
 	public static void initiateDatabase() {
-//		final String username = "TomTrumps";
-//		final String password = "TomTrumps";
-//		final String database = "jdbc:postgresql://52.24.215.108:5432/TomTrumps";
+		final String username = "TomTrumps";
+		final String password = "TomTrumps";
+		final String database = "jdbc:postgresql://52.24.215.108:5432/TomTrumps";
 
 		try {
 
 			Class.forName("org.postgresql.Driver");
 
-			c = DriverManager.getConnection("jdbc:postgresql://52.24.215.108:5432/TomTrumps", "TomTrumps", "TomTrumps");
+			c = DriverManager.getConnection(database, username, password);
 
 		} catch (Exception e) {
 			e.printStackTrace();
