@@ -187,6 +187,7 @@ public class TopTrumps {
 			}
 		}
 		writeLog(s);
+		System.out.println("The category selected is: " + topCards.getCards().get(playerChooseAttribute).getCharacteristics()[chosenAttribute].getName());
 		// step 4 - decides the winner or if a draw
 		int roundWinner = -1;
 		for(int i=0;i<topCards.getCards().size();i++) {
@@ -222,7 +223,10 @@ public class TopTrumps {
 				System.out.println(players[roundWinner].getName() + " won! and their card was:");	
 				}
 			System.out.println(topCards.getCards().get(roundWinner));
+			//System.out.println(players[roundWinner] + " will pick the next characteristic.");
 		}
+		System.out.println(players[roundWinner].getName() + " will pick the next characteristic");
+
 		// step 6 - if draw: transfer all cards to the communal pile
 		// winner: transfer all cards from round to back of winners cards 
 		// also if winner and there is cards in the com pile, add them to back and empty com pile
@@ -258,9 +262,12 @@ public class TopTrumps {
 				gameWinner = i;
 			}else if(players[i].getDeck().getCards().size() == 0) {
 				eliminated[i] = true;
+				System.out.println(players[i].getName() + " has been eliminated");
 			}
+//			if(eliminated[i]) {
+//				System.out.println(players[i].getName() + " has been eliminated");
+//			}
 		}
-		
 		if(gameEnded) {
 			System.out.println("\nThe winner is: " + players[gameWinner].getName());
 			writeLog("The winner is: " + players[gameWinner].getName());

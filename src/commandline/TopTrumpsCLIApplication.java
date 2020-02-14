@@ -56,7 +56,7 @@ public class TopTrumpsCLIApplication {
 		case 1: 
 			System.out.println("Starting game");
 			// calls the setUpGame function from TopTrumps and adds x players
-			TopTrumps.setUpGame(3, playerName);
+			TopTrumps.setUpGame(5, playerName);
 			break;
 		case 2:
 			System.out.println("Past Game statistics");
