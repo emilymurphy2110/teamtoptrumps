@@ -26,6 +26,9 @@ public class TopTrumps {
 	public static int noOfCards;
 	private static boolean[] eliminated;
 	private static int roundCounter = 0;
+	private static int roundWinner = -1;
+	private static Deck communalPile;
+	private static int startingPlayer;
 	private static PrintWriter logWriter;
 	private static GameData game = new GameData();
 	// command line switches
@@ -33,6 +36,7 @@ public class TopTrumps {
 	static boolean onlineMode = false;
 	static boolean commandLineMode = false;
 	static boolean printTestLog = false;
+
 
 
 	/** This is the main class for the TopTrumps Applications */
@@ -149,9 +153,12 @@ public class TopTrumps {
 	
 	public static void round(int playerChooseAttribute, Deck communalPile) {
 		// step 1 
+
+		// setRoundCounter(getRoundCounter() + 1);
 		roundCounter++;
 		System.out.println("\n\nround: " + roundCounter);
 		System.out.println("you have " + (players[0].getDeck().getCards().size()) + " cards in your hand");
+
 		// step 2 - selects top card from each player
 		Deck topCards = new Deck();
 		for(int i = 0; i<players.length; i++) {
@@ -189,18 +196,18 @@ public class TopTrumps {
 		writeLog(s);
 		System.out.println("The category selected is: " + topCards.getCards().get(playerChooseAttribute).getCharacteristics()[chosenAttribute].getName());
 		// step 4 - decides the winner or if a draw
-		int roundWinner = -1;
+//		int roundWinner = -1;
 		for(int i=0;i<topCards.getCards().size();i++) {
 			if(topCards.getCards().get(i)!=null) {
-				roundWinner=i;
+				setRoundWinner(i);
 			}
 		}
 		boolean draw = false;
 		for(int i = 0; i < topCards.getCards().size(); i++) {
 			if(!eliminated[i]) {
 				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() > 
-				topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue()) {
-					roundWinner = i;
+				topCards.getCards().get(getRoundWinner()).getCharacteristics()[chosenAttribute].getValue()) {
+					setRoundWinner(i);
 				}
 		}
 		}
@@ -208,7 +215,7 @@ public class TopTrumps {
 		for(int i = 0; i < topCards.getCards().size(); i++) {
 			if(!eliminated[i]) {
 				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() == 
-					topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue() && i != roundWinner) {
+					topCards.getCards().get(getRoundWinner()).getCharacteristics()[chosenAttribute].getValue() && i != getRoundWinner()) {
 					draw = true;
 			}
 			}
@@ -217,13 +224,19 @@ public class TopTrumps {
 		if(draw) {
 			System.out.println("It's a draw!");
 		}else {
-			if(roundWinner == 0) {
+			if(getRoundWinner() == 0) {
 				System.out.println("You won! and your card was:");	
 			}else {
+
+// 				System.out.println("Player " + getRoundWinner() + " won! and their card was:");	
+// 				}
+// 			System.out.println(topCards.getCards().get(getRoundWinner()));
+
 				System.out.println(players[roundWinner].getName() + " won! and their card was:");	
 				}
 			System.out.println(topCards.getCards().get(roundWinner));
 			//System.out.println(players[roundWinner] + " will pick the next characteristic.");
+
 		}
 		System.out.println(players[roundWinner].getName() + " will pick the next characteristic");
 
@@ -236,12 +249,18 @@ public class TopTrumps {
 			System.out.println("there is " + communalPile.getCards().size() + " cards in the communal pile");
 			game.incrementDraws();
 		}else {
+
+// 			Deck.transferHand(topCards, players[getRoundWinner()].getDeck());
+// 			Deck.transferHand(communalPile, players[getRoundWinner()].getDeck());
+// 			players[getRoundWinner()].roundWon();
+
 			Deck.transferHand(topCards, players[roundWinner].getDeck());
 			Deck.transferHand(communalPile, players[roundWinner].getDeck());
 			if(!communalPile.getCards().isEmpty()) {
 				writeLog("cards removed from the communal pile: \n" + communalPile.toString());
 			}
 			players[roundWinner].roundWon();
+
 		}
 		for (int i = 0; i < players.length; i++) {
 			if(i==0) {
@@ -294,11 +313,44 @@ public class TopTrumps {
 				}
 				round(nextPlayer, communalPile);
 			}else {
-			round(roundWinner, communalPile);
+			round(getRoundWinner(), communalPile);
 			}
 		}
 	}
-	
+
+
+// 	public static int getRoundCounter() {
+// 		return roundCounter;
+// 	}
+
+// 	public static void setRoundCounter(int roundCounter) {
+// 		TopTrumps.roundCounter = roundCounter;
+// 	}
+
+// 	public static int getRoundWinner() {
+// 		return roundWinner;
+// 	}
+
+// 	public static void setRoundWinner(int roundWinner) {
+// 		TopTrumps.roundWinner = roundWinner;
+// 	}
+
+// 	public static Deck getCommunalPile() {
+// 		return communalPile;
+// 	}
+
+// 	public static void setCommunalPile(Deck communalPile) {
+// 		TopTrumps.communalPile = communalPile;
+// 	}
+
+// 	public static int getStartingPlayer() {
+// 		return startingPlayer;
+// 	}
+
+// 	public static void setStartingPlayer(int startingPlayer) {
+// 		TopTrumps.startingPlayer = startingPlayer;
+
+  
 	// if '-t' has been called, writeLog() will print to the log file
 	public static void writeLog(Object log) {
 		if(printTestLog) {
