@@ -21,6 +21,9 @@ public class TopTrumps {
 	public static int noOfCards;
 	private static boolean[] eliminated;
 	private static int roundCounter = 0;
+	private static int roundWinner = -1;
+	private static Deck communalPile;
+	private static int startingPlayer;
 
 
 	/** This is the main class for the TopTrumps Applications */
@@ -124,8 +127,8 @@ public class TopTrumps {
 	
 	public static void round(int playerChooseAttribute, Deck communalPile) {
 		// step 1 
-		roundCounter++;
-		System.out.println("\n\nround: " + roundCounter);
+		setRoundCounter(getRoundCounter() + 1);
+		System.out.println("\n\nround: " + getRoundCounter());
 		System.out.println("you have " + (players[0].getDeck().getCards().size() - 1) + " cards in your hand");
 		// step 2 - selects top card from each player
 		Deck topCards = new Deck();
@@ -155,18 +158,18 @@ public class TopTrumps {
 			}
 		}
 		// step 4 - decides the winner or if a draw
-		int roundWinner = -1;
+//		int roundWinner = -1;
 		for(int i=0;i<topCards.getCards().size();i++) {
 			if(topCards.getCards().get(i)!=null) {
-				roundWinner=i;
+				setRoundWinner(i);
 			}
 		}
 		boolean draw = false;
 		for(int i = 0; i < topCards.getCards().size(); i++) {
 			if(!eliminated[i]) {
 				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() > 
-				topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue()) {
-					roundWinner = i;
+				topCards.getCards().get(getRoundWinner()).getCharacteristics()[chosenAttribute].getValue()) {
+					setRoundWinner(i);
 				}
 		}
 		}
@@ -174,7 +177,7 @@ public class TopTrumps {
 		for(int i = 0; i < topCards.getCards().size(); i++) {
 			if(!eliminated[i]) {
 				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() == 
-					topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue() && i != roundWinner) {
+					topCards.getCards().get(getRoundWinner()).getCharacteristics()[chosenAttribute].getValue() && i != getRoundWinner()) {
 					draw = true;
 			}
 			}
@@ -183,12 +186,12 @@ public class TopTrumps {
 		if(draw) {
 			System.out.println("It's a draw!");
 		}else {
-			if(roundWinner == 0) {
+			if(getRoundWinner() == 0) {
 				System.out.println("You won! and your card was:");	
 			}else {
-				System.out.println("Player " + roundWinner + " won! and their card was:");	
+				System.out.println("Player " + getRoundWinner() + " won! and their card was:");	
 				}
-			System.out.println(topCards.getCards().get(roundWinner));
+			System.out.println(topCards.getCards().get(getRoundWinner()));
 		}
 		// step 6 - if draw: transfer all cards to the communal pile
 		// winner: transfer all cards from round to back of winners cards 
@@ -197,9 +200,9 @@ public class TopTrumps {
 			Deck.transferHand(topCards, communalPile);
 			System.out.println("there is " + communalPile.getCards().size() + " cards in the communal pile");
 		}else {
-			Deck.transferHand(topCards, players[roundWinner].getDeck());
-			Deck.transferHand(communalPile, players[roundWinner].getDeck());
-			players[roundWinner].roundWon();
+			Deck.transferHand(topCards, players[getRoundWinner()].getDeck());
+			Deck.transferHand(communalPile, players[getRoundWinner()].getDeck());
+			players[getRoundWinner()].roundWon();
 		}
 		// step 7 - if winner the game will end and show stats of that game but not coded yet and offer main menu to player 
 		// will also check if any player has 0 cards and eliminate them
@@ -235,8 +238,40 @@ public class TopTrumps {
 				}
 				round(nextPlayer, communalPile);
 			}else {
-			round(roundWinner, communalPile);
+			round(getRoundWinner(), communalPile);
 			}
 		}
+	}
+
+	public static int getRoundCounter() {
+		return roundCounter;
+	}
+
+	public static void setRoundCounter(int roundCounter) {
+		TopTrumps.roundCounter = roundCounter;
+	}
+
+	public static int getRoundWinner() {
+		return roundWinner;
+	}
+
+	public static void setRoundWinner(int roundWinner) {
+		TopTrumps.roundWinner = roundWinner;
+	}
+
+	public static Deck getCommunalPile() {
+		return communalPile;
+	}
+
+	public static void setCommunalPile(Deck communalPile) {
+		TopTrumps.communalPile = communalPile;
+	}
+
+	public static int getStartingPlayer() {
+		return startingPlayer;
+	}
+
+	public static void setStartingPlayer(int startingPlayer) {
+		TopTrumps.startingPlayer = startingPlayer;
 	}
 }

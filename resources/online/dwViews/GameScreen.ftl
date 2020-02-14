@@ -41,20 +41,19 @@
 		<!-- Main Content -->
 		<div class="container">
 			<div class="row">
-				<div class="alert alert-primary" id="actionIfo" role="alert">
-					Text about round and what's happening
+				<div class="alert alert-primary" id="actionInfo" role="alert">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<div class="card" style="width: 18rem;">
+					<div class="card" id="playerAction" style="width: 18rem;">
 						<div class="card-body">
 							<h5 class="card-title" id="activePlayer">The Active Player is...</h5>
 							<p id="selected">They selected... </p>
 						<div class="dropdown">
- 							<button class="btn btn-secondary dropdown-toggle" type="button" id="charSelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Next: Category Selection
+ 							<button class="btn btn-secondary dropdown-toggle" type="button" id="playerSelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Next: Category Selection
  							</button>
- 							<div class="dropdown-menu" aria-labelledby="charSelection">
+ 							<div class="dropdown-menu" aria-labelledby="playerSelection">
    								<button class="dropdown-item" id="speed" type="button">Select: Speed</button>
    								<button class="dropdown-item" id="cargo" type="button">Select: Cargo</button>
     							<button class="dropdown-item" id="size" type="button">Select: Size</button>
@@ -62,7 +61,15 @@
     							<button class="dropdown-item" id="firepower" type="button">Select: Firepower</button>
  							</div>
 						</div>
-						<button type="button" id="newRound" class="btn btn-success">New Round</button>
+					</div>
+					<div>
+						<button type="button" id="aiSelection" onclick="aiSelection()"class="btn btn-success">Next: Category Selection</button>
+					</div>
+					<div>
+						<button type="button" id="newRound" onclick="newRound()"class="btn btn-success">New Round</button>
+					</div>
+					<div>
+						<button type="button" id="showWinner" onclick="showWinner() "class="btn btn-success">Show Winner</button>
 					</div>
 				</div>
 				<div class="col">
@@ -168,7 +175,7 @@
 				function newGame() {
 			
 					// First create a CORS request, this is the message we are going to send (a get request in this case)
-					var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newgame"); // Request type and URL+parameters
+					var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newGame"); // Request type and URL+parameters
 				
 					// Message is not sent yet, but we can check that the browser supports CORS
 					if (!xhr) {
@@ -182,7 +189,7 @@
 				function loadCards() {
 			
 					// First create a CORS request, this is the message we are going to send (a get request in this case)
-					var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newgame"); // Request type and URL+parameters
+					var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/loadCards"); // Request type and URL+parameters
 				
 					// Message is not sent yet, but we can check that the browser supports CORS
 					if (!xhr) {
@@ -193,6 +200,42 @@
 					xhr.send();		
 				}
 				
+				function firstRound() {
+
+					$(#selected).hide();
+					$(#showWinner).hide();
+					$(#ai1).hide();
+					$(#ai2).hide();
+					$(#ai3).hide();
+					$(#ai4).hide();
+
+					function startRound(){
+					var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newRound"); // Request type and URL+parameters
+					if (!xhr) {
+  						alert("CORS not supported");
+					}
+					xhr.send();
+					}
+
+					function startingPlayer(){
+						var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/getStartingPlayer"); // Request type and URL+parameters
+					if (!xhr) {
+  						alert("CORS not supported");
+					}
+					xhr.onload = function(e) {
+ 						var startingPlayer = xhr.response; // the text of the response
+						if(startingPlayer == 0){
+							$(#aiSelection).hide();
+						}else{
+							$(#playerSelection).hide();
+						}
+					}
+					xhr.send();
+					}
+
+					document.getElementById("actionInfo").innerHTML = "Round 1: Players draw their cards.";
+					
+				}
 			}
 			
 			// -----------------------------------------
@@ -229,8 +272,70 @@
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
 		
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloJSONList() {
+			// This gives the player chosen attribute: Speed
+			function speed(){
+
+			}
+
+			// This gives the player chosen attribute: Cargo
+			function cargo(){
+				
+			}
+
+			// This gives the player chosen attribute: Size
+			function size(){
+				
+			}
+
+			// This gives the player chosen attribute: Range
+			function range(){
+				
+			}
+
+			// This gives the player chosen attribute: Firepower
+			function firepower(){
+				
+			}
+
+			// This is the button for when the ai is making a category selection
+			function aiSelection(){
+				$(#ai1).show();
+				$(#ai2).show();
+				$(#ai3).show();
+				$(#ai4).show();
+			}
+
+			// Displays winner, shows new round button and hides everything else
+			function showWinner(){
+				$(#showWinner).hide();
+				$(#human).hide();
+				$(#ai1).hide();
+				$(#ai2).hide();
+				$(#ai3).hide();
+				$(#ai4).hide();
+				$(#playerAction).hide();
+				$(#newRound).show();
+
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/showWinner");
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+					document.getElementbyID("actionInfo").innerHTML = responseText; // makes actionInfo display response
+				};
+				xhr.send();
+			}
+
+			// This calls the round method in REST API Methods
+			function newRound(){
+				var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newRound"); // Request type and URL+parameters
+				if (!xhr) {
+  						alert("CORS not supported");
+				}
+				xhr.send();		
+
+			}
 			
 			
 
