@@ -9,10 +9,14 @@ public class Player {
 	private int noRoundsWon;
 	private boolean inGame;
 	
-	public Player(int id, String name, Deck deck) {
+	public Player(int id, Deck deck) {
 		super();
 		this.id = id;
-		this.name = name;
+		if(id ==0) {
+			this.name = "Player";
+		}else {
+			this.name = "Computer " + id;
+		}
 		this.deck = deck;
 	}
 	
