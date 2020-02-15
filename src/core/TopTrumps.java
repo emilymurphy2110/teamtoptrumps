@@ -176,7 +176,7 @@ public class TopTrumps {
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
 		// change to -1 to have an all AI game, change to 0 to have a human player
-		if(playerChooseAttribute == 0) {
+		if(playerChooseAttribute == -1) {
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
@@ -280,8 +280,10 @@ public class TopTrumps {
 				gameEnded = true;
 				gameWinner = i;
 			}else if(players[i].getDeck().getCards().size() == 0) {
-				eliminated[i] = true;
-				System.out.println(players[i].getName() + " has been eliminated");
+				if(!eliminated[i]) {
+					eliminated[i] = true;
+					System.out.println(players[i].getName() + " has been eliminated");
+				}
 			}
 //			if(eliminated[i]) {
 //				System.out.println(players[i].getName() + " has been eliminated");
@@ -329,7 +331,13 @@ public class TopTrumps {
 		// prints statistics for commandline
 		public static void printStats() {
 			//DatabaseLogic.getDatabaseStats();
-			System.out.println(Arrays.toString(DatabaseLogic.getDatabaseStats()));
+			//System.out.println(Arrays.toString(DatabaseLogic.getDatabaseStats()));
+			int[] stats = DatabaseLogic.getDatabaseStats();
+			System.out.println("Number of Games: " + stats[0]);
+			System.out.println("Total computer wins: " + stats[1]);
+			System.out.println("Total human wins: " + stats[2]);
+			System.out.println("Average number of draws: " + stats[3]);
+			System.out.println("Most rounds played in a single game: " + stats[4]);
 		}
 
  	public static int getRoundCounter() {
