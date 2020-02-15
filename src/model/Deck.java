@@ -18,12 +18,6 @@ public class Deck {
 		return "Within the Deck, the cards are " + cards;
 	}
 
-	public static ArrayList<Card> shuffleDeck(Deck deck) {
-		ArrayList<Card> shuffled = new ArrayList<>(deck.getCards());
-		Collections.shuffle(shuffled);
-		return shuffled;
-	}
-
 	// methods to shuffle the deck
 	public void shuffle() {
 		ArrayList<Card> shuffled = new ArrayList<>(getCards());
