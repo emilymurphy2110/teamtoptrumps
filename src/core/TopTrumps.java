@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Random;
 
 import commandline.TopTrumpsCLIApplication;
+import database.DatabaseLogic;
 import model.Card;
 import model.Characteristic;
 import model.Deck;
+import model.GameData;
 import model.Player;
 import online.TopTrumpsOnlineApplication;
 
@@ -24,11 +26,17 @@ public class TopTrumps {
 	public static int noOfCards;
 	private static boolean[] eliminated;
 	private static int roundCounter = 0;
+	private static int roundWinner = -1;
+	private static Deck communalPile;
+	private static int startingPlayer;
 	private static PrintWriter logWriter;
+	private static GameData game = new GameData();
 	// command line switches
+	// moved these out the main so they can be seen within the other methods
 	static boolean onlineMode = false;
 	static boolean commandLineMode = false;
 	static boolean printTestLog = false;
+
 
 
 	/** This is the main class for the TopTrumps Applications */
@@ -38,6 +46,7 @@ public class TopTrumps {
 		System.out.println("--- Top Trumps   ---");
 		System.out.println("--------------------");
 
+		DatabaseLogic.initiateDatabase();
 		
 
 		// check the command line for what switches are active
@@ -52,7 +61,7 @@ public class TopTrumps {
 
 		}
 
-		// We cannot run online and command line mode simultaniously
+		// We cannot run online and command line mode simultaneously
 		if (onlineMode && commandLineMode) {
 			System.out.println("ERROR: Both online and command line mode selected, select one or the other!");
 			System.exit(0);
@@ -74,6 +83,8 @@ public class TopTrumps {
 	// game logic for both command line and online mode
 
 	public static void setUpGame(int noOfPlayers, String playerName) {
+		// initiating the logWriter to save to toptrumps.log
+		// this will override the previous file
 		try {
 			logWriter = new PrintWriter("toptrumps.log", "UTF-8");
 		} catch (FileNotFoundException e) {
@@ -136,16 +147,18 @@ public class TopTrumps {
 
 			Card newCard = new Card(values[0], characteristics);
 			newCards.addCard(newCard);
-			//System.out.println(newCards);
 		}
 		return newCards;
 	}
 	
 	public static void round(int playerChooseAttribute, Deck communalPile) {
 		// step 1 
+
+		// setRoundCounter(getRoundCounter() + 1);
 		roundCounter++;
 		System.out.println("\n\nround: " + roundCounter);
 		System.out.println("you have " + (players[0].getDeck().getCards().size()) + " cards in your hand");
+
 		// step 2 - selects top card from each player
 		Deck topCards = new Deck();
 		for(int i = 0; i<players.length; i++) {
@@ -155,20 +168,17 @@ public class TopTrumps {
 				topCards.addCard(null);
 			}
 		}
-		writeLog("The cards in play: \n" + topCards.toString());
+		writeLog("The cards in play0: \n" + topCards.toString());
 		if(!eliminated[0]) {
 			System.out.println(topCards.getCards().get(0));
 		}
 		// step 3 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
+		// change to -1 to have an all AI game, change to 0 to have a human player
 		if(playerChooseAttribute == 0) {
-			//System.out.println(topCards.getCards().get(0));
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
-//			System.out.println(topCards);
-//			System.out.println(topCards.getCards().size());
-//			System.out.println(Arrays.toString(eliminated));
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
 			for(int i = 0; i< characteristicsPlayerCard.length; i++) {
 				if(characteristicsPlayerCard[i].getValue() > chosenAttribute) {
@@ -184,19 +194,20 @@ public class TopTrumps {
 			}
 		}
 		writeLog(s);
+		System.out.println("The category selected is: " + topCards.getCards().get(playerChooseAttribute).getCharacteristics()[chosenAttribute].getName());
 		// step 4 - decides the winner or if a draw
-		int roundWinner = -1;
+//		int roundWinner = -1;
 		for(int i=0;i<topCards.getCards().size();i++) {
 			if(topCards.getCards().get(i)!=null) {
-				roundWinner=i;
+				setRoundWinner(i);
 			}
 		}
 		boolean draw = false;
 		for(int i = 0; i < topCards.getCards().size(); i++) {
 			if(!eliminated[i]) {
 				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() > 
-				topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue()) {
-					roundWinner = i;
+				topCards.getCards().get(getRoundWinner()).getCharacteristics()[chosenAttribute].getValue()) {
+					setRoundWinner(i);
 				}
 		}
 		}
@@ -204,7 +215,7 @@ public class TopTrumps {
 		for(int i = 0; i < topCards.getCards().size(); i++) {
 			if(!eliminated[i]) {
 				if(topCards.getCards().get(i).getCharacteristics()[chosenAttribute].getValue() == 
-					topCards.getCards().get(roundWinner).getCharacteristics()[chosenAttribute].getValue() && i != roundWinner) {
+					topCards.getCards().get(getRoundWinner()).getCharacteristics()[chosenAttribute].getValue() && i != getRoundWinner()) {
 					draw = true;
 			}
 			}
@@ -213,13 +224,22 @@ public class TopTrumps {
 		if(draw) {
 			System.out.println("It's a draw!");
 		}else {
-			if(roundWinner == 0) {
+			if(getRoundWinner() == 0) {
 				System.out.println("You won! and your card was:");	
 			}else {
+
+// 				System.out.println("Player " + getRoundWinner() + " won! and their card was:");	
+// 				}
+// 			System.out.println(topCards.getCards().get(getRoundWinner()));
+
 				System.out.println(players[roundWinner].getName() + " won! and their card was:");	
 				}
 			System.out.println(topCards.getCards().get(roundWinner));
+			//System.out.println(players[roundWinner] + " will pick the next characteristic.");
+
 		}
+		System.out.println(players[roundWinner].getName() + " will pick the next characteristic");
+
 		// step 6 - if draw: transfer all cards to the communal pile
 		// winner: transfer all cards from round to back of winners cards 
 		// also if winner and there is cards in the com pile, add them to back and empty com pile
@@ -227,13 +247,20 @@ public class TopTrumps {
 			Deck.transferHand(topCards, communalPile);
 			writeLog("cards added to the communal pile: \n" + communalPile.toString());
 			System.out.println("there is " + communalPile.getCards().size() + " cards in the communal pile");
+			game.incrementDraws();
 		}else {
+
+// 			Deck.transferHand(topCards, players[getRoundWinner()].getDeck());
+// 			Deck.transferHand(communalPile, players[getRoundWinner()].getDeck());
+// 			players[getRoundWinner()].roundWon();
+
 			Deck.transferHand(topCards, players[roundWinner].getDeck());
 			Deck.transferHand(communalPile, players[roundWinner].getDeck());
 			if(!communalPile.getCards().isEmpty()) {
-				writeLog("cards removed to the communal pile: \n" + communalPile.toString());
+				writeLog("cards removed from the communal pile: \n" + communalPile.toString());
 			}
 			players[roundWinner].roundWon();
+
 		}
 		for (int i = 0; i < players.length; i++) {
 			if(i==0) {
@@ -247,27 +274,34 @@ public class TopTrumps {
 		// then offer human player to proceed to next round (not coded yet also) - commented below what should happen
 		boolean gameEnded = false;
 		int gameWinner = -1;
+		game.incrementRoundCounter();
 		for(int i = 0; i < players.length; i++) {
 			if(players[i].getDeck().getCards().size() == noOfCards-communalPile.getCards().size()) {
 				gameEnded = true;
 				gameWinner = i;
 			}else if(players[i].getDeck().getCards().size() == 0) {
 				eliminated[i] = true;
+				System.out.println(players[i].getName() + " has been eliminated");
 			}
+//			if(eliminated[i]) {
+//				System.out.println(players[i].getName() + " has been eliminated");
+//			}
 		}
-		
 		if(gameEnded) {
 			System.out.println("\nThe winner is: " + players[gameWinner].getName());
 			writeLog("The winner is: " + players[gameWinner].getName());
+			game.setWinner(gameWinner);
+			DatabaseLogic.insertRecord(game);
 			logWriter.close();
 			for(int i = 0; i<players.length; i++) {
 				System.out.println(players[i].getName() + " and they won " + players[i].getNoRoundsWon() + " rounds");
 			}
 			int choice = TopTrumpsCLIApplication.menu("Go back to main menu");
 			if(choice==0) {
+				DatabaseLogic.disconnectDatabase();
 				System.exit(0);
 			}else if(choice==1) {
-				return;
+				TopTrumpsCLIApplication.mainMenu();
 			}
 		}else {
 			if(draw) {
@@ -279,18 +313,55 @@ public class TopTrumps {
 				}
 				round(nextPlayer, communalPile);
 			}else {
-			round(roundWinner, communalPile);
+			round(getRoundWinner(), communalPile);
 			}
 		}
 	}
 	
-	public static void writeLog(Object log) {
-		if(printTestLog) {
-			logWriter.println(log);
-			logWriter.println("-----------------------");	
+	// if '-t' has been called, writeLog() will print to the log file
+		public static void writeLog(Object log) {
+			if(printTestLog) {
+				logWriter.println(log);
+				logWriter.println("-----------------------");	
+			}
 		}
-	}
-	//two methods
-	//one method to update and one to download
-	//one method will submit a query that will update the database
+		
+		// prints statistics for commandline
+		public static void printStats() {
+			//DatabaseLogic.getDatabaseStats();
+			System.out.println(Arrays.toString(DatabaseLogic.getDatabaseStats()));
+		}
+
+ 	public static int getRoundCounter() {
+ 		return roundCounter;
+ 	}
+
+ 	public static void setRoundCounter(int roundCounter) {
+ 		TopTrumps.roundCounter = roundCounter;
+ 	}
+
+ 	public static int getRoundWinner() {
+ 		return roundWinner;
+ 	}
+
+ 	public static void setRoundWinner(int roundWinner) {
+ 		TopTrumps.roundWinner = roundWinner;
+ 	}
+
+ 	public static Deck getCommunalPile() {
+ 		return communalPile;
+ 	}
+
+ 	public static void setCommunalPile(Deck communalPile) {
+ 		TopTrumps.communalPile = communalPile;
+ 	}
+
+ 	public static int getStartingPlayer() {
+ 		return startingPlayer;
+ 	}
+
+ 	public static void setStartingPlayer(int startingPlayer) {
+ 		TopTrumps.startingPlayer = startingPlayer;
+ 	}
+
 }

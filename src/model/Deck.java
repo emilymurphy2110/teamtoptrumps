@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
+	
+//	public Deck() {
+		
+//	}
 
 	private ArrayList<Card> cards = new ArrayList<Card>();
 
@@ -58,7 +62,7 @@ public class Deck {
 			if(source.getCards().get(0) == null) {
 				source.removeCard(0);
 			}else {
-				target.addCard(source.removeCard(0));
+				target.addCardToBack(source.removeCard(0));
 			}
 		}
 	}
