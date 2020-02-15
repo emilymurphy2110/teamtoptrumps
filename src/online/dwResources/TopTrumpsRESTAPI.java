@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import commandline.TopTrumpsCLIApplication;
 import core.TopTrumps;
+import model.Deck;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content

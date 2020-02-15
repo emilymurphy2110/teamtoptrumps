@@ -168,7 +168,7 @@ public class TopTrumps {
 				topCards.addCard(null);
 			}
 		}
-		writeLog("The cards in play: \n" + topCards.toString());
+		writeLog("The cards in play0: \n" + topCards.toString());
 		if(!eliminated[0]) {
 			System.out.println(topCards.getCards().get(0));
 		}
@@ -176,7 +176,7 @@ public class TopTrumps {
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = -1;
 		// change to -1 to have an all AI game, change to 0 to have a human player
-		if(playerChooseAttribute == -1) {
+		if(playerChooseAttribute == 0) {
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
@@ -317,51 +317,51 @@ public class TopTrumps {
 			}
 		}
 	}
-
-
-// 	public static int getRoundCounter() {
-// 		return roundCounter;
-// 	}
-
-// 	public static void setRoundCounter(int roundCounter) {
-// 		TopTrumps.roundCounter = roundCounter;
-// 	}
-
-// 	public static int getRoundWinner() {
-// 		return roundWinner;
-// 	}
-
-// 	public static void setRoundWinner(int roundWinner) {
-// 		TopTrumps.roundWinner = roundWinner;
-// 	}
-
-// 	public static Deck getCommunalPile() {
-// 		return communalPile;
-// 	}
-
-// 	public static void setCommunalPile(Deck communalPile) {
-// 		TopTrumps.communalPile = communalPile;
-// 	}
-
-// 	public static int getStartingPlayer() {
-// 		return startingPlayer;
-// 	}
-
-// 	public static void setStartingPlayer(int startingPlayer) {
-// 		TopTrumps.startingPlayer = startingPlayer;
-
-  
-	// if '-t' has been called, writeLog() will print to the log file
-	public static void writeLog(Object log) {
-		if(printTestLog) {
-			logWriter.println(log);
-			logWriter.println("-----------------------");	
-		}
-	}
 	
-	// prints statistics for commandline
-	public static void printStats() {
-		//DatabaseLogic.getDatabaseStats();
-		System.out.println(Arrays.toString(DatabaseLogic.getDatabaseStats()));
-	}
+	// if '-t' has been called, writeLog() will print to the log file
+		public static void writeLog(Object log) {
+			if(printTestLog) {
+				logWriter.println(log);
+				logWriter.println("-----------------------");	
+			}
+		}
+		
+		// prints statistics for commandline
+		public static void printStats() {
+			//DatabaseLogic.getDatabaseStats();
+			System.out.println(Arrays.toString(DatabaseLogic.getDatabaseStats()));
+		}
+
+ 	public static int getRoundCounter() {
+ 		return roundCounter;
+ 	}
+
+ 	public static void setRoundCounter(int roundCounter) {
+ 		TopTrumps.roundCounter = roundCounter;
+ 	}
+
+ 	public static int getRoundWinner() {
+ 		return roundWinner;
+ 	}
+
+ 	public static void setRoundWinner(int roundWinner) {
+ 		TopTrumps.roundWinner = roundWinner;
+ 	}
+
+ 	public static Deck getCommunalPile() {
+ 		return communalPile;
+ 	}
+
+ 	public static void setCommunalPile(Deck communalPile) {
+ 		TopTrumps.communalPile = communalPile;
+ 	}
+
+ 	public static int getStartingPlayer() {
+ 		return startingPlayer;
+ 	}
+
+ 	public static void setStartingPlayer(int startingPlayer) {
+ 		TopTrumps.startingPlayer = startingPlayer;
+ 	}
+
 }
