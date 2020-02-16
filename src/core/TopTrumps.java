@@ -34,7 +34,7 @@ public class TopTrumps {
 		System.out.println("--------------------");
 
 		// command line switches
-		boolean onlineMode = false;
+		boolean onlineMode = true;
 		boolean commandLineMode = false;
 		boolean printTestLog = false;
 
@@ -256,7 +256,7 @@ public class TopTrumps {
 	}
 
 	public static void setRoundWinner(int roundWinner) {
-		TopTrumps.roundWinner = roundWinner;
+		TopTrumps.roundWinner = roundW inner;
 	}
 
 	public static Deck getCommunalPile() {

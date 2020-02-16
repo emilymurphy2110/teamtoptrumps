@@ -15,8 +15,7 @@
     	<script>vex.defaultOptions.className = 'vex-theme-os';</script>
     	<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/assets/stylesheets/vex.css"/>
     	<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/assets/stylesheets/vex-theme-os.css"/>
-    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 	</head>
 
@@ -25,15 +24,15 @@
 
 		<!-- Navagation Bar-->
 		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-			<a href="http://localhost:8080/toptrumps/" class="navbar-brand">TopTrumps</a>
+			<a href="http://localhost:7777/toptrumps/" class="navbar-brand">TopTrumps</a>
 			<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarMenu">				<ul class="navbar-nav">
+			<div class="collapse navbar-collapse" id="navbarMenu"><ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="http://localhost:8080/toptrumps/game/" class="nav-link">New Game</a>
+						<a href="http://localhost:7777/toptrumps/game/"class="nav-link">New Game</a>
 					</li>
-					<li class="nav-item">							<a href="http://localhost:8080/toptrumps/stats/" class="nav-link">Statistics</a>
+					<li class="nav-item"><a href="http://localhost:7777/toptrumps/stats/" class="nav-link">Statistics</a>
 					</li>
 				</ul>
 			</div>
@@ -44,7 +43,7 @@
 			<div class="row justify-content-around my-row">
 				<div class="col my-col">						
 					<div class="alert alert-primary" role="alert">
-						<a href="http://localhost:8080/toptrumps/game/" class="alert-link">New Game</a>
+						<a href="http://localhost:7777/toptrumps/game/" class="alert-link">New Game</a>
 					</div>
 					<div class="alert alert-light" role="alert">
 						Start a new Top Trumps Game
@@ -52,7 +51,7 @@
 				</div>
 				<div class="col my-col">						
 					<div class="alert alert-primary" role="alert">
-						<a href="http://localhost:8080/toptrumps/stats/" class="alert-link">Game Statistics</a>
+						<a href="http://localhost:7777/toptrumps/stats/" class="alert-link">Game Statistics</a>
 					</div>
 					<div class="alert alert-light" role="alert">
 							View Statistics from previous Games			
@@ -61,25 +60,22 @@
 			</div>
 		</div>	
 
-		</body>
-		
-		
 		<!-- End of HTML -->
 		
 		<script type="text/javascript">
 		
 			// Method that is called on page load
 			function initalize() {
+			}
 			
 				// --------------------------------------------------------------------------
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
 				
 				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
+
 				
-			}
+
 			
 			// -----------------------------------------
 			// Add your other Javascript methods Here
@@ -109,56 +105,14 @@
   				 }
   				 return xhr;
 			}
-		
-		</script>
-		
-		<!-- Here are examples of how to call REST API Methods -->
-		<script type="text/javascript">
-		
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloJSONList() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloJSONList"); // Request type and URL
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloWord(word) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloWord?Word="+word); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
+	
 
 		</script>
 		
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	</body>
+
 </html>
