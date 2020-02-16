@@ -18,12 +18,6 @@ public class Deck {
 		return "Within the Deck, the cards are " + cards;
 	}
 
-	public static ArrayList<Card> shuffleDeck(Deck deck) {
-		ArrayList<Card> shuffled = new ArrayList<>(deck.getCards());
-		Collections.shuffle(shuffled);
-		return shuffled;
-	}
-
 	// methods to shuffle the deck
 	public void shuffle() {
 		ArrayList<Card> shuffled = new ArrayList<>(getCards());
@@ -62,7 +56,7 @@ public class Deck {
 			if(source.getCards().get(0) == null) {
 				source.removeCard(0);
 			}else {
-				target.addCard(source.removeCard(0));
+				target.addCardToBack(source.removeCard(0));
 			}
 		}
 	}

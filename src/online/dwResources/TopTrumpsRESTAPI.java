@@ -47,6 +47,10 @@ public class TopTrumpsRESTAPI {
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
 
+
+
+//		TopTrumps.setUpGame(4);
+
 	}
 	
 	// ----------------------------------------------------
@@ -90,7 +94,8 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/newgame")
 	public void newGame() throws IOException {
-		TopTrumps.setUpGame(4);
+
+		TopTrumps.setUpGame(4, "Player");
 		
 	}
 	
@@ -99,6 +104,7 @@ public class TopTrumpsRESTAPI {
 	@Path("/loadCards")
 	public void loadCards() throws IOException {
 		TopTrumps.loadCards();
+
 	}
 	
 	 //new API for first round
