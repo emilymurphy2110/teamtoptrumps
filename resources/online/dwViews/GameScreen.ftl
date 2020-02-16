@@ -401,7 +401,10 @@
 					var obj = document.getElementById('human').getElementsByClassName('card-title')[0];
 					// var c1 = document.getElementById(
 <<<<<<< HEAD
+<<<<<<< HEAD
 					obj[0] = document.getElementById('c1');
+=======
+>>>>>>> Emily
 =======
 >>>>>>> Emily
 					obj.innerHTML=value.name;

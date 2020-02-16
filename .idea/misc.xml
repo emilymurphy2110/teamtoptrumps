@@ -4,6 +4,7 @@
     <option name="languageLevel" value="ES6" />
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -11,6 +12,8 @@
       </list>
     </option>
   </component>
+=======
+>>>>>>> Emily
 =======
 >>>>>>> Emily
   <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
