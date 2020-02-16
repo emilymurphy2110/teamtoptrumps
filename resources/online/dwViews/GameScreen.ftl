@@ -393,14 +393,16 @@
 				xhr.send();
 			}
 
-			function getPlayerCard() {
+			function getPlayerCard(elementId) {
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayerCard");
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText);
 					var obj = document.getElementById('human').getElementsByClassName('card-title')[0];
-					var c1 = document.getElementById(
+					// var c1 = document.getElementById(
+					obj[0] = document.getElementById('c1');
 					obj.innerHTML=value.name;
+					c1.innerText = value.name;
 					getRoundNumber();
 				};
 				xhr.send();
