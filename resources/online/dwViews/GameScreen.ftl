@@ -350,6 +350,10 @@
 				newGame();
 				roundStage1();
 				getPlayerCard();
+				getAI1();
+				getAI2();
+				getAI3();
+				getAI4();
 				getRoundNumber();
 				console.log("hello");
 
@@ -396,12 +400,107 @@
 			function getPlayerCard() {
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayerCard");
 				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
- 					var value = JSON.parse(responseText);
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
 					var obj = document.getElementById('human').getElementsByClassName('card-title')[0];
-					//var c1 = document.getElementById('c1')[0];
+					var c1 = document.getElementById('human').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('human').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('human').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('human').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('human').getElementsByClassName('list-group-item')[4];
 					obj.innerHTML=value.name;
-					//c1.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI1();
+				};
+				xhr.send();
+			}
+
+			function getAI1() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI1");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai1').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai1').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai1').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai1').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai1').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai1').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI2();
+				};
+				xhr.send();
+			}
+
+			function getAI2() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI2");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai2').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai2').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai2').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai2').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai2').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai2').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI3();
+				};
+				xhr.send();
+			}
+
+			function getAI3() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI3");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai3').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai3').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai3').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai3').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai3').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai3').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI4();
+				};
+				xhr.send();
+			}
+			function getAI4() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI4");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai4').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai4').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai4').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai4').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai4').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai4').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
 					getRoundNumber();
 				};
 				xhr.send();

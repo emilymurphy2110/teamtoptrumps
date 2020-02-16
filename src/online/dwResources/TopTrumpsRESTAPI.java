@@ -96,7 +96,7 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/newGame")
 	public void newGame() throws IOException {
-		TopTrumps.setUpGame(4, "Player");
+		TopTrumps.setUpGame(5, "Player");
 	}
 	
 	@GET
@@ -117,7 +117,26 @@ public class TopTrumpsRESTAPI {
 	public Card getPlayerCard() throws IOException {
 		return TopTrumps.topCards.getCards().get(0);
 	}
-	
+	@GET
+	@Path("/getAI1")
+	public Card getAI1() throws IOException {
+		return TopTrumps.topCards.getCards().get(1);
+	}
+	@GET
+	@Path("/getAI2")
+	public Card getAI2() throws IOException {
+		return TopTrumps.topCards.getCards().get(2);
+	}
+	@GET
+	@Path("/getAI3")
+	public Card getAI3() throws IOException {
+		return TopTrumps.topCards.getCards().get(3);
+	}
+	@GET
+	@Path("/getAI4")
+	public Card getAI4() throws IOException {
+		return TopTrumps.topCards.getCards().get(4);
+	}
 	@GET
 	@Path("/getRoundNumber")
 	public int getRoundNumber() throws IOException {
