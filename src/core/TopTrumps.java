@@ -27,7 +27,7 @@ public class TopTrumps {
 	private static boolean[] eliminated;
 	private static int roundCounter = 0;
 	private static int roundWinner = -1;
-	private static Deck communalPile;
+	private static Deck communalPile = new Deck();
 	private static int startingPlayer;
 	private static PrintWriter logWriter;
 	private static GameData game = new GameData();
@@ -36,8 +36,10 @@ public class TopTrumps {
 	static boolean onlineMode = false;
 	static boolean commandLineMode = false;
 	static boolean printTestLog = false;
+	public static Deck topCards = new Deck();
+	public static int playerChooseAttribute = 0;
 
-
+	
 
 	/** This is the main class for the TopTrumps Applications */
 	public static void main(String[] args) {
@@ -94,7 +96,7 @@ public class TopTrumps {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		roundCounter = 0;
 		// creates an array of players
 		players = new Player[noOfPlayers];
 		eliminated = new boolean[noOfPlayers];
@@ -119,8 +121,10 @@ public class TopTrumps {
 		
 		// randomise starting player
 		Random random = new Random();
-		int startingPlayer = random.nextInt(noOfPlayers);
-		round(startingPlayer, new Deck());
+		startingPlayer = random.nextInt(noOfPlayers);
+		if(commandLineMode) {
+			roundStage1();
+		}
 	}
 
 	// method for loading cards
@@ -151,16 +155,12 @@ public class TopTrumps {
 		return newCards;
 	}
 	
-	public static void round(int playerChooseAttribute, Deck communalPile) {
-		// step 1 
-
-		// setRoundCounter(getRoundCounter() + 1);
+	public static void roundStage1() {
 		roundCounter++;
 		System.out.println("\n\nround: " + roundCounter);
 		System.out.println("you have " + (players[0].getDeck().getCards().size()) + " cards in your hand");
 
 		// step 2 - selects top card from each player
-		Deck topCards = new Deck();
 		for(int i = 0; i<players.length; i++) {
 			if(!eliminated[i]) {
 				topCards.addCard(players[i].getDeck().removeCard(players[i].getDeck().getCards().size() - 1));
@@ -168,20 +168,27 @@ public class TopTrumps {
 				topCards.addCard(null);
 			}
 		}
-		writeLog("The cards in play0: \n" + topCards.toString());
+		writeLog("The cards in play: \n" + topCards.toString());
 		if(!eliminated[0]) {
 			System.out.println(topCards.getCards().get(0));
 		}
+		if(commandLineMode) {
+			roundStage2();
+		}
+	}
+	
+	public static void roundStage2() {
+		
 		// step 3 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
-		int chosenAttribute = -1;
+		int chosenAttribute = 0;
 		// change to -1 to have an all AI game, change to 0 to have a human player
-		if(playerChooseAttribute == -1) {
+		if(playerChooseAttribute == -1 && commandLineMode) {
 			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) -1;
 		}else {
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute).getCharacteristics();
 			for(int i = 0; i< characteristicsPlayerCard.length; i++) {
-				if(characteristicsPlayerCard[i].getValue() > chosenAttribute) {
+				if(characteristicsPlayerCard[i].getValue() > characteristicsPlayerCard[chosenAttribute].getValue()) {
 				chosenAttribute = i;
 				}
 			}
@@ -307,15 +314,17 @@ public class TopTrumps {
 			}
 		}else {
 			if(draw) {
-				int nextPlayer = 0;
+				
 				for(int i=1;i<players.length;i++) {
 					if(!eliminated[(playerChooseAttribute+i)%players.length]) {
-						nextPlayer = (playerChooseAttribute+i)%players.length;
+						playerChooseAttribute = (playerChooseAttribute+i)%players.length;
 					}
 				}
-				round(nextPlayer, communalPile);
 			}else {
-			round(getRoundWinner(), communalPile);
+				playerChooseAttribute = roundWinner;
+			}
+			if(commandLineMode) {
+				roundStage1();
 			}
 		}
 	}

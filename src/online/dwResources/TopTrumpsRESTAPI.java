@@ -18,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import commandline.TopTrumpsCLIApplication;
 import core.TopTrumps;
+import database.DatabaseLogic;
+import model.Card;
 import model.Deck;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
@@ -92,29 +94,11 @@ public class TopTrumpsRESTAPI {
 	
 	// new API for new game which calls the setUpGame method
 	@GET
-	@Path("/newgame")
+	@Path("/newGame")
 	public void newGame() throws IOException {
-
 		TopTrumps.setUpGame(4, "Player");
-		
+		//TopTrumps.roundStage1();	
 	}
-	
-	 //new API for new game which calls the loadCards method
-	@GET
-	@Path("/loadCards")
-	public void loadCards() throws IOException {
-		TopTrumps.loadCards();
-
-	}
-	
-	 //new API for first round
-//	@GET
-//	@Path("/newgame")
-//	public void firstRound() throws IOException {
-//		int startingPlayer = TopTrumps.getStartingPlayer();
-//		Deck communalPile = TopTrumps.getCommunalPile();
-//		TopTrumps.round(startingPlayer, communalPile);
-//	}
 	
 	@GET
 	@Path("/startingPlayer")
@@ -123,59 +107,61 @@ public class TopTrumpsRESTAPI {
 		return startingPlayer;
 	}
 	
-	// API to return the winner of a round
-//	@GET
-//	@Path("/newgame")
-//	public String showWinner() throws IOException {
-//		int roundNumber = TopTrumps.getRoundCounter();
-//		int roundWinner = TopTrumps.getRoundWinner();
-//		if(roundWinner==0) {
-//			return "Round "+ roundNumber + ": You won this round";
-//		}
-//		else if(roundWinner==1) {
-//			return "Round "+ roundNumber + ": AI1 won this round";
-//		}
-//		else if(roundWinner==2) {
-//			return "Round "+ roundNumber + ": AI2 won this round";
-//		}
-//		else if(roundWinner==3) {
-//			return "Round "+ roundNumber + ": AI3 won this round";
-//		}
-//		else{
-//			return "Round "+ roundNumber + ": AI4 won this round";
-//		}
-//	}
+	@GET
+	@Path("/roundStage1")
+	public void roundStage1() throws IOException {
+		TopTrumps.roundStage1();
+	}
 	
-	// API to return the winner of a round
-//	@GET
-//	@Path("/newgame")
-//	public String showWinner() throws IOException {
-//		int roundNumber = TopTrumps.getRoundCounter();
-//		int roundWinner = TopTrumps.getRoundWinner();
-//		if(roundWinner==0) {
-//			return "Round "+ roundNumber + ": You won this round";
-//		}
-//		else if(roundWinner==1) {
-//			return "Round "+ roundNumber + ": AI1 won this round";
-//		}
-//		else if(roundWinner==2) {
-//			return "Round "+ roundNumber + ": AI2 won this round";
-//		}
-//		else if(roundWinner==3) {
-//			return "Round "+ roundNumber + ": AI3 won this round";
-//		}
-//		else{
-//			return "Round "+ roundNumber + ": AI4 won this round";
-//		}
-//	}
+	@GET
+	@Path("/getPlayerCard")
+	public Card getPlayerCard() throws IOException {
+		return TopTrumps.topCards.getCards().get(0);
+	}
 	
-	//new API for new game which calls the round method
-//	@GET
-//	@Path("/newgame")
-//	public void newRound() throws IOException {
-//		int roundWinner = TopTrumps.getRoundWinner();
-//		Deck communalPile = TopTrumps.getCommunalPile();
-//		TopTrumps.round(roundWinner, communalPile);
-//	}
+	@GET
+	@Path("/getRoundNumber")
+	public int getRoundNumber() throws IOException {
+		return TopTrumps.getRoundCounter();
+	}
+
+	@GET
+	@Path("/toptrumpsgame" )
+	public Card toptrumpsgame(@QueryParam("card") int Card) throws IOException {
+		return TopTrumps.loadCards().getCards().get(Card);
+	}
+	
+	//new API for number of games value
+	@GET
+	@Path("/numberOfGames" )
+	public int overallGames() throws IOException {
+		return DatabaseLogic.getOverallGames();
+	}
+	
+	@GET
+	@Path("/computerWins" )
+	public int compWins() throws IOException {
+		return DatabaseLogic.getCompWins();
+	}
+	
+	@GET
+	@Path("/humanWins" )
+	public int humanWins() throws IOException {
+		return DatabaseLogic.getPlayerWins();
+	}
+	
+	@GET
+	@Path("/averageDraws" )
+	public int averageDraws() throws IOException {
+		return DatabaseLogic.getAverageDraws();
+	}
+	
+	@GET
+	@Path("/longestGame" )
+	public int longestGame() throws IOException {
+		return DatabaseLogic.getMostRoundsPlayed();
+	}
+	
+	
 
 }
