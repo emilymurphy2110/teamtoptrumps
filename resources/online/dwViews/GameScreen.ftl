@@ -399,7 +399,7 @@
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText);
 					var obj = document.getElementById('human').getElementsByClassName('card-title')[0];
-					var c1 = document.getElementById(
+					// var c1 = document.getElementById(
 					obj.innerHTML=value.name;
 					getRoundNumber();
 				};
