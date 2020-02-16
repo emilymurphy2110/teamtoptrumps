@@ -400,7 +400,10 @@
  					var value = JSON.parse(responseText);
 					var obj = document.getElementById('human').getElementsByClassName('card-title')[0];
 					// var c1 = document.getElementById(
+<<<<<<< HEAD
 					obj[0] = document.getElementById('c1');
+=======
+>>>>>>> Emily
 					obj.innerHTML=value.name;
 					c1.innerText = value.name;
 					getRoundNumber();
