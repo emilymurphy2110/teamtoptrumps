@@ -22,10 +22,38 @@
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
-    	<div class="container">
+    	<!-- Navagation Bar-->
+		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+			<a href="http://localhost:8080/toptrumps/" class="navbar-home">TopTrumps</a>
+			<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarMenu">				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a href="http://localhost:8080/toptrumps/game/" class="nav-link">New Game</a>
+					</li>
+					<li class="nav-item">							
+						<a href="http://localhost:8080/toptrumps/stats/" class="nav-link">Statistics</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-			<!-- Add your HTML Here -->
-		
+		<!-- Main Content -->
+
+		<div class="container">
+			<div class="row justify-content-around">
+				<div class="alert alert-primary" role="alert">
+					<h2>Game Statistics</h2>
+				</div>
+				<div class="alert alert-primary" role="alert">
+					<p>Number of Games: </p>
+					<p>Number of Human Wins: </p>
+					<p>Number of AI Wins: </p>
+					<p>Average Draws per Game: </p>
+					<p>Longest Game: </p>
+				</div>
+			</div>
 		</div>
 		
 		<script type="text/javascript">

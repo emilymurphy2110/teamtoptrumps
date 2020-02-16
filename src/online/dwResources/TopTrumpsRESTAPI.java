@@ -16,6 +16,10 @@ import online.configuration.TopTrumpsJSONConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import commandline.TopTrumpsCLIApplication;
+import core.TopTrumps;
+import model.Deck;
+
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
 @Consumes(MediaType.APPLICATION_JSON) // This resource can take JSON content as input
@@ -27,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  * 
  * Below are provided some sample methods that illustrate how to create
  * REST API methods in Dropwizard. You will need to replace these with
- * methods that allow a TopTrumps game to be controled from a Web page.
+ * methods that allow a TopTrumps game to be controlled from a Web page.
  */
 public class TopTrumpsRESTAPI {
 
@@ -42,9 +46,11 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
-		// ----------------------------------------------------
-		// Add relevant initalization here
-		// ----------------------------------------------------
+
+
+
+//		TopTrumps.setUpGame(4);
+
 	}
 	
 	// ----------------------------------------------------
@@ -73,7 +79,7 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	@GET
-	@Path("/helloWord")
+	@Path("/jettyserver")
 	/**
 	 * Here is an example of how to read parameters provided in an HTML Get request.
 	 * @param Word - A word
@@ -81,7 +87,71 @@ public class TopTrumpsRESTAPI {
 	 * @throws IOException
 	 */
 	public String helloWord(@QueryParam("Word") String Word) throws IOException {
-		return "Hello "+Word;
+		return "hello this is a string" + Word;
 	}
 	
+	// new API for new game which calls the setUpGame method
+	@GET
+	@Path("/newgame")
+	public void newGame() throws IOException {
+
+		TopTrumps.setUpGame(4, "Player");
+		
+	}
+	 //new API for new game which calls the loadCards method
+	@GET
+	@Path("/newgame")
+	public void loadCards() throws IOException {
+		TopTrumps.loadCards();
+
+	}
+	
+	 //new API for first round
+	@GET
+	@Path("/newgame")
+	public void firstRound() throws IOException {
+		int startingPlayer = TopTrumps.getStartingPlayer();
+		Deck communalPile = TopTrumps.getCommunalPile();
+		TopTrumps.round(startingPlayer, communalPile);
+	}
+	
+	@GET
+	@Path("/newgame")
+	public int getStartingPlayer() throws IOException {
+		int startingPlayer = TopTrumps.getStartingPlayer();
+		return startingPlayer;
+	}
+	
+	// API to return the winner of a round
+	@GET
+	@Path("/newgame")
+	public String showWinner() throws IOException {
+		int roundNumber = TopTrumps.getRoundCounter();
+		int roundWinner = TopTrumps.getRoundWinner();
+		if(roundWinner==0) {
+			return "Round "+ roundNumber + ": You won this round";
+		}
+		else if(roundWinner==1) {
+			return "Round "+ roundNumber + ": AI1 won this round";
+		}
+		else if(roundWinner==2) {
+			return "Round "+ roundNumber + ": AI2 won this round";
+		}
+		else if(roundWinner==3) {
+			return "Round "+ roundNumber + ": AI3 won this round";
+		}
+		else{
+			return "Round "+ roundNumber + ": AI4 won this round";
+		}
+	}	
+	
+	//new API for new game which calls the round method
+	@GET
+	@Path("/newgame")
+	public void newRound() throws IOException {
+		int roundWinner = TopTrumps.getRoundWinner();
+		Deck communalPile = TopTrumps.getCommunalPile();
+		TopTrumps.round(roundWinner, communalPile);
+	}
+
 }
