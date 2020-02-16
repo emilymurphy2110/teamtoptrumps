@@ -88,7 +88,7 @@
 					   	    <h5 class="card-title" style="font-size:14px">Card title</h5>
 					  	  </div>
 					 	  <ul class="list-group list-group-flush">
-					    	<li class="list-group-item" style="font-size:10px">Speed: </li>
+					    	<li id="c1" class="list-group-item" style="font-size:10px">Speed: </li>
 					    	<li class="list-group-item" style="font-size:10px">Cargo: </li>
 					   		<li class="list-group-item" style="font-size:10px">Size: </li>
 					   		<li class="list-group-item"  style="font-size:10px">Range: </li>
@@ -399,7 +399,7 @@
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText);
 					var obj = document.getElementById('human').getElementsByClassName('card-title')[0];
-					var c1 = document.getElementById(
+					//var c1 = document.getElementById(
 					obj.innerHTML=value.name;
 					getRoundNumber();
 				};

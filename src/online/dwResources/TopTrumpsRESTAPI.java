@@ -91,13 +91,12 @@ public class TopTrumpsRESTAPI {
 	public String helloWord(@QueryParam("Word") String Word) throws IOException {
 		return "hello this is a string" + Word;
 	}
-	
+	// APIs for the GameScreen
 	// new API for new game which calls the setUpGame method
 	@GET
 	@Path("/newGame")
 	public void newGame() throws IOException {
 		TopTrumps.setUpGame(4, "Player");
-		//TopTrumps.roundStage1();	
 	}
 	
 	@GET
@@ -131,7 +130,7 @@ public class TopTrumpsRESTAPI {
 		return TopTrumps.loadCards().getCards().get(Card);
 	}
 	
-	//new API for number of games value
+	// all APIs for the stats page
 	@GET
 	@Path("/numberOfGames" )
 	public int overallGames() throws IOException {
@@ -161,7 +160,4 @@ public class TopTrumpsRESTAPI {
 	public int longestGame() throws IOException {
 		return DatabaseLogic.getMostRoundsPlayed();
 	}
-	
-	
-
 }
