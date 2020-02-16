@@ -61,6 +61,7 @@ public class DatabaseLogic {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 	//connect to database method
 	
 	//disconnect from database
@@ -68,6 +69,9 @@ public class DatabaseLogic {
 	
 
 	
+=======
+
+>>>>>>> 608267605268274ff9e55f45e02327cd030ca39d
 	// need to use in model class to set values to the variables after the game, which are then used to insert data to the database
 	public static void insertRecord(GameData game) {
 		try {
