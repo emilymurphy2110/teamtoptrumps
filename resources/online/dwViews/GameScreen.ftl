@@ -51,7 +51,7 @@
 						<div class="card" id="playerAction" style="width: 12rem;">
 							<div class="card-body">
 								<div>
-									<h5 class="card-title" id="activePlayer" style="font-size: 12px">The Active Player is...</h5>
+									<h4 class="card-title" id="activePlayer" style="font-size: 12px">The Active Player is...</h4>
 								</div>
 								<div>
 									<p id="selected" style="font-size: 12px">They selected... </p>
@@ -73,10 +73,10 @@
 							<button type="button" id="aiSelection" style="width: 12rem; font-size:10px" class="btn btn-success">Next: Category Selection</button>
 						</div>
 						<div>
-							<button type="button" id="newRound" style="width: 12rem; font-size:10px" onclick="newRound() "class="btn btn-success">New Round</button>
+							<button type="button" id="newRound" style="width: 12rem; font-size:10px" class="btn btn-success">New Round</button>
 						</div>
 						<div>
-							<button type="button" id="showWinner" style="width: 12rem; font-size:10px" onclick="showWinner()" class="btn btn-success">Show Winner</button>
+							<button type="button" id="showWinner" style="width: 12rem; font-size:10px" class="btn btn-success">Show Winner</button>
 						</div>
 					</div>
 				</div>
@@ -170,6 +170,14 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
+				startingPlayer();
+				// var start = $(.h4).text();
+				// if(start == "Player"){
+				// 	$("#aiSelection").toggle();
+				// 			console.log("hello222");
+				// }else{
+				// 	$("#playerSelection").toggle();
+				// }
 				$("#selected").toggle();
 				$("#showWinner").toggle();
 				$("#newRound").toggle();
@@ -177,6 +185,8 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
+
+
 			});
 		</script>
 
@@ -189,7 +199,7 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#aiSelection").toggle();
+				$("#aiSelection").prop('disabled', true);
 				$("#showWinner").toggle();
 			});
 		</script>
@@ -202,8 +212,8 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#playerSelection").toggle();
-				$("#showWinner").toggle();
+				//$("#playerSelection").toggle();
+				// $("#showWinner").toggle();
 			});
 		</script>
 
@@ -215,8 +225,8 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#playerSelection").toggle();
-				$("#showWinner").toggle();
+				// $("#playerSelection").toggle();
+				// $("#showWinner").toggle();
 			});
 		</script>
 
@@ -228,8 +238,8 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#playerSelection").toggle();
-				$("#showWinner").toggle();
+				// $("#playerSelection").toggle();
+				// $("#showWinner").toggle();
 			});
 		</script>
 
@@ -241,8 +251,8 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#playerSelection").toggle();
-				$("#showWinner").toggle();
+				// $("#playerSelection").toggle();
+				// $("#showWinner").toggle();
 			});
 		</script>
 
@@ -254,13 +264,14 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#playerSelection").toggle();
-				$("#showWinner").toggle();
+				// $("#playerSelection").toggle();
+				// $("#showWinner").toggle();
 			});
 		</script>
 
 		<script>
 			$("#showWinner").click(function(){
+				getRoundWinner();
 				$("#activePlayer").toggle();
 				$("#selected").toggle()
 				$("#human").toggle();;
@@ -268,19 +279,22 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#aiSelection").toggle();
-				$("#showWinner").toggle();
-				$("#newRound").toggle();
+				// $("#aiSelection").toggle();
+				// $("#showWinner").toggle();
+				// $("#newRound").toggle();
+				// $(#playerSelection).hide();
+				// $(#aiSelection).hide();
 			});
 		</script>
 
 		<script>
 			$("#newRound").click(function(){
+				roundStage1();
 				$("#activePlayer").toggle();
-				$("#selected").toggle()
-				$("#human").toggle();;
-				$("#aiSelection").toggle();
-				$("#showWinner").toggle();
+				// $("#selected").toggle()
+				 $("#human").toggle();;
+				// $("#aiSelection").toggle();
+				// $("#showWinner").toggle();
 			});
 		</script>
 
@@ -326,24 +340,17 @@
 
 			// Displays winner, shows new round button and hides everything else
 			function showWinner(){
-				$(#showWinner).hide();
+				getRoundWinner();
+			//	$(#showWinner).hide();
 				$(#human).hide();
 				$(#ai1).hide();
 				$(#ai2).hide();
 				$(#ai3).hide();
 				$(#ai4).hide();
 				$(#playerAction).hide();
-				$(#newRound).show();
-
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/showWinner");
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					document.getElementbyID("actionInfo").innerHTML = responseText; // makes actionInfo display response
-				};
-				xhr.send();
+			// 	$(#newRound).show();
+			// //	$(#playerSelection).hide();
+			// 	$(#aiSelection).hide();
 			}
 
 
@@ -355,10 +362,10 @@
 			// Method that is called on page load
 			function initalize() {
 				newGame();
-				roundStage1();
-				getPlayerCard();
-				getRoundNumber();
-				getAI1();
+				// roundStage1();
+				// getPlayerCard();
+				// getRoundNumber();
+				// getAI1();
 				console.log("hello");
 
 			}
@@ -387,19 +394,39 @@
 				}
 				xhr.onload = function(e) {
  					var startingPlayer = xhr.response; // the text of the response
-					if(startingPlayer == 0){
-						$(document).ready(function(){
-
+					if(startingPlayer == "Player"){
 							$("#aiSelection").toggle();
-						});
+							console.log("hello");
+
 					}else{
-						$(document).ready(function(){
 							$("#playerSelection").toggle();
-						});
+
 					}
+					var e = document.getElementById('activePlayer');
+					e.innerHTML = startingPlayer;
+					getChosenAttribute();
 				}
 				xhr.send();
 			}
+
+			function getChosenAttribute() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/chosenAttribute");
+				xhr.onload = function(e) {
+				var responseText = xhr.response; // the text of the response
+				//var value = JSON.parse(responseText);
+				var obj = document.getElementById('selected');
+				obj.innerHTML="They selected " + responseText;
+				};
+				xhr.send();
+			}
+			function roundStage1() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundStage1");
+				xhr.onload = function(e) {
+					getPlayerCard();
+				}
+				xhr.send();
+			}
+
 
 			function getPlayerCard() {
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayerCard");
@@ -419,6 +446,7 @@
 					c4.innerHTML="Range: " + value.characteristics[3].value;
 					c5.innerHTML="Firepower: " + value.characteristics[4].value;
 					getAI1();
+					getRoundNumber();
 				};
 				xhr.send();
 			}
@@ -520,20 +548,36 @@
 				};
 				xhr.send();
 			}
+
+			function getRoundWinner() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getWinner");
+				xhr.onload = function(e) {
+ 				var responseText = xhr.response; // the text of the response
+ 				//var value = JSON.parse(responseText);
+				var obj = document.getElementById('actionInfo');
+				obj.innerHTML=responseText ;
+			//	$("#aiSelection").hide();
+				};
+				xhr.send();
+			}
+
 			function roundStage1() {
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundStage1");
 				xhr.onload = function(e) {
 					getPlayerCard();
+					startingPlayer();
+					getRoundNumber();
 				}
 				xhr.send();
 			}
 
 
-			function roundStage2(int char) {
+			function roundStage2(char) {
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundStage2?c=" + char);
 
 				xhr.onload = function(e) {
-					getPlayerCard();
+					startingPlayer();
+					getRoundNumber();
 				}
 				xhr.send();
 			}

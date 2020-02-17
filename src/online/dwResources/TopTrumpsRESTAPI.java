@@ -107,9 +107,8 @@ public class TopTrumpsRESTAPI {
 
 	@GET
 	@Path("/startingPlayer")
-	public int getStartingPlayer() throws IOException {
-		int startingPlayer = TopTrumps.getStartingPlayer();
-		return startingPlayer;
+	public String getStartingPlayer() throws IOException {
+		return TopTrumps.getActivePlayerName();
 	}
 
 	@GET
@@ -121,9 +120,9 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/roundStage2")
-	public int roundStage2(@QueryParam("c") int Characteristic) throws IOException {
-		TopTrumps.roundStage2(Characteristic);
-		return 200;
+	public void roundStage2(@QueryParam("c") int c) throws IOException {
+		TopTrumps.roundStage2(c);
+		System.out.println(c);
 	}
 	
 
@@ -161,6 +160,22 @@ public class TopTrumpsRESTAPI {
 	@Path("/getRoundNumber")
 	public int getRoundNumber() throws IOException {
 		return TopTrumps.getRoundCounter();
+	}
+
+	@GET
+	@Path("/chosenAttribute")
+	public String chosenAttribute() throws IOException {
+		return TopTrumps.characteristicNames[TopTrumps.chosenAttribute];
+	}
+	
+	@GET
+	@Path("/getWinner")
+	public String getWinner() throws IOException {
+		if(TopTrumps.getCommunalPile().getCards().isEmpty()) {
+			return "The Winner is: " + TopTrumps.players[TopTrumps.getRoundWinner()].getName();
+		}else {
+			return "It's a Draw! There are " + TopTrumps.getCommunalPile().getCards().size() + " cards in the communal pile";
+		}
 	}
 
 	@GET

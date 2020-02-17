@@ -22,7 +22,7 @@ import online.TopTrumpsOnlineApplication;
 
 public class TopTrumps {
 
-	private static Player[] players;
+	public static Player[] players;
 	public static int noOfCards;
 	private static boolean[] eliminated;
 	private static int roundCounter = 0;
@@ -38,6 +38,10 @@ public class TopTrumps {
 	static boolean printTestLog = false;
 	public static Deck topCards = new Deck();
 	public static int playerChooseAttribute = 0;
+	public static int chosenAttribute = 0;
+	public static String [] characteristicNames = new String [] {
+			"Speed", "Cargo", "Size", "Range", "Firepower"
+	};
 
 	/** This is the main class for the TopTrumps Applications */
 	public static void main(String[] args) {
@@ -180,12 +184,12 @@ public class TopTrumps {
 	}
 
 	public static void roundStage2(int playerCharacteristic) {
-
+		
 		// step 2 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
-		int chosenAttribute = 0;
+		chosenAttribute = 0;
 		// change to -1 to have an all AI game, change to 0 to have a human player
-		if (playerChooseAttribute == -1) {
+		if (playerChooseAttribute == 0) {
 			if(commandLineMode) {
 				chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) - 1;
 			} else {
@@ -202,7 +206,7 @@ public class TopTrumps {
 		}
 		String s = "";
 		s += "The category selected is: "
-				+ topCards.getCards().get(playerChooseAttribute).getCharacteristics()[chosenAttribute].getName();
+				+ characteristicNames[chosenAttribute];
 		for (int i = 0; i < players.length; i++) {
 			if (!eliminated[i]) {
 				s += "\n Player " + (i + 1) + " value is: "
@@ -211,7 +215,7 @@ public class TopTrumps {
 		}
 		writeLog(s);
 		System.out.println("The category selected is: "
-				+ topCards.getCards().get(playerChooseAttribute).getCharacteristics()[chosenAttribute].getName());
+				+ characteristicNames[chosenAttribute]);
 		// step 3 - decides the winner or if a draw
 //		int roundWinner = -1;
 		for (int i = 0; i < topCards.getCards().size(); i++) {
@@ -331,6 +335,10 @@ public class TopTrumps {
 				roundStage1();
 			}
 		}
+	}
+	
+	public static String getActivePlayerName() {
+		return players[playerChooseAttribute].getName();
 	}
 
 	// if '-t' has been called, writeLog() will print to the log file
