@@ -18,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import commandline.TopTrumpsCLIApplication;
 import core.TopTrumps;
+import database.DatabaseLogic;
+import model.Card;
 import model.Deck;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
@@ -26,58 +28,67 @@ import model.Deck;
 /**
  * This is a Dropwizard Resource that specifies what to provide when a user
  * requests a particular URL. In this case, the URLs are associated to the
- * different REST API methods that you will need to expose the game commands
- * to the Web page.
+ * different REST API methods that you will need to expose the game commands to
+ * the Web page.
  * 
- * Below are provided some sample methods that illustrate how to create
- * REST API methods in Dropwizard. You will need to replace these with
- * methods that allow a TopTrumps game to be controlled from a Web page.
+ * Below are provided some sample methods that illustrate how to create REST API
+ * methods in Dropwizard. You will need to replace these with methods that allow
+ * a TopTrumps game to be controlled from a Web page.
  */
 public class TopTrumpsRESTAPI {
 
-	/** A Jackson Object writer. It allows us to turn Java objects
-	 * into JSON strings easily. */
-	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
-	
 	/**
-	 * Contructor method for the REST API. This is called first. It provides
-	 * a TopTrumpsJSONConfiguration from which you can get the location of
-	 * the deck file and the number of AI players.
+	 * A Jackson Object writer. It allows us to turn Java objects into JSON strings
+	 * easily.
+	 */
+	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+
+	/**
+	 * Contructor method for the REST API. This is called first. It provides a
+	 * TopTrumpsJSONConfiguration from which you can get the location of the deck
+	 * file and the number of AI players.
+	 * 
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
 
+//		TopTrumps.setUpGame(4);
+
 	}
-	
+
 	// ----------------------------------------------------
 	// Add relevant API methods here
 	// ----------------------------------------------------
-	
+
 	@GET
 	@Path("/helloJSONList")
 	/**
-	 * Here is an example of a simple REST get request that returns a String.
-	 * We also illustrate here how we can convert Java objects to JSON strings.
+	 * Here is an example of a simple REST get request that returns a String. We
+	 * also illustrate here how we can convert Java objects to JSON strings.
+	 * 
 	 * @return - List of words as JSON
 	 * @throws IOException
 	 */
 	public String helloJSONList() throws IOException {
-		
+
 		List<String> listOfWords = new ArrayList<String>();
 		listOfWords.add("Hello");
 		listOfWords.add("World!");
-		
+
 		// We can turn arbatory Java objects directly into JSON strings using
 		// Jackson seralization, assuming that the Java objects are not too complex.
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
-		
+
 		return listAsJSONString;
 	}
 	
+	
+
 	@GET
 	@Path("/jettyserver")
 	/**
 	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * 
 	 * @param Word - A word
 	 * @return - A String
 	 * @throws IOException
@@ -85,91 +96,107 @@ public class TopTrumpsRESTAPI {
 	public String helloWord(@QueryParam("Word") String Word) throws IOException {
 		return "hello this is a string" + Word;
 	}
-	
+
+	// APIs for the GameScreen
 	// new API for new game which calls the setUpGame method
 	@GET
-	@Path("/newgame")
+	@Path("/newGame")
 	public void newGame() throws IOException {
-		TopTrumps.setUpGame(4);
-		
+		TopTrumps.setUpGame(5, "Player");
 	}
-	
-	 //new API for new game which calls the loadCards method
-	@GET
-	@Path("/loadCards")
-	public void loadCards() throws IOException {
-		TopTrumps.loadCards();
-	}
-	
-	 //new API for first round
-//	@GET
-//	@Path("/newgame")
-//	public void firstRound() throws IOException {
-//		int startingPlayer = TopTrumps.getStartingPlayer();
-//		Deck communalPile = TopTrumps.getCommunalPile();
-//		TopTrumps.round(startingPlayer, communalPile);
-//	}
-	
+
 	@GET
 	@Path("/startingPlayer")
 	public int getStartingPlayer() throws IOException {
 		int startingPlayer = TopTrumps.getStartingPlayer();
 		return startingPlayer;
 	}
-	
-	// API to return the winner of a round
-//	@GET
-//	@Path("/newgame")
-//	public String showWinner() throws IOException {
-//		int roundNumber = TopTrumps.getRoundCounter();
-//		int roundWinner = TopTrumps.getRoundWinner();
-//		if(roundWinner==0) {
-//			return "Round "+ roundNumber + ": You won this round";
-//		}
-//		else if(roundWinner==1) {
-//			return "Round "+ roundNumber + ": AI1 won this round";
-//		}
-//		else if(roundWinner==2) {
-//			return "Round "+ roundNumber + ": AI2 won this round";
-//		}
-//		else if(roundWinner==3) {
-//			return "Round "+ roundNumber + ": AI3 won this round";
-//		}
-//		else{
-//			return "Round "+ roundNumber + ": AI4 won this round";
-//		}
-//	}
-	
-	// API to return the winner of a round
-//	@GET
-//	@Path("/newgame")
-//	public String showWinner() throws IOException {
-//		int roundNumber = TopTrumps.getRoundCounter();
-//		int roundWinner = TopTrumps.getRoundWinner();
-//		if(roundWinner==0) {
-//			return "Round "+ roundNumber + ": You won this round";
-//		}
-//		else if(roundWinner==1) {
-//			return "Round "+ roundNumber + ": AI1 won this round";
-//		}
-//		else if(roundWinner==2) {
-//			return "Round "+ roundNumber + ": AI2 won this round";
-//		}
-//		else if(roundWinner==3) {
-//			return "Round "+ roundNumber + ": AI3 won this round";
-//		}
-//		else{
-//			return "Round "+ roundNumber + ": AI4 won this round";
-//		}
-//	}
-	
-	//new API for new game which calls the round method
-//	@GET
-//	@Path("/newgame")
-//	public void newRound() throws IOException {
-//		int roundWinner = TopTrumps.getRoundWinner();
-//		Deck communalPile = TopTrumps.getCommunalPile();
-//		TopTrumps.round(roundWinner, communalPile);
-//	}
 
+	@GET
+	@Path("/roundStage1")
+	public void roundStage1() throws IOException {
+		TopTrumps.roundStage1();
+	}
+	
+	
+	@GET
+	@Path("/roundStage2")
+	public int roundStage2(@QueryParam("c") int Characteristic) throws IOException {
+		TopTrumps.roundStage2(Characteristic);
+		return 200;
+	}
+	
+
+	@GET
+	@Path("/getPlayerCard")
+	public Card getPlayerCard() throws IOException {
+		return TopTrumps.topCards.getCards().get(0);
+	}
+
+	@GET
+	@Path("/getAI1")
+	public Card getAI1() throws IOException {
+		return TopTrumps.topCards.getCards().get(1);
+	}
+
+	@GET
+	@Path("/getAI2")
+	public Card getAI2() throws IOException {
+		return TopTrumps.topCards.getCards().get(2);
+	}
+
+	@GET
+	@Path("/getAI3")
+	public Card getAI3() throws IOException {
+		return TopTrumps.topCards.getCards().get(3);
+	}
+
+	@GET
+	@Path("/getAI4")
+	public Card getAI4() throws IOException {
+		return TopTrumps.topCards.getCards().get(4);
+	}
+
+	@GET
+	@Path("/getRoundNumber")
+	public int getRoundNumber() throws IOException {
+		return TopTrumps.getRoundCounter();
+	}
+
+	@GET
+	@Path("/toptrumpsgame")
+	public Card toptrumpsgame(@QueryParam("card") int Card) throws IOException {
+		return TopTrumps.loadCards().getCards().get(Card);
+	}
+
+	// all APIs for the stats page
+	@GET
+	@Path("/numberOfGames")
+	public int overallGames() throws IOException {
+		return DatabaseLogic.getOverallGames();
+	}
+
+	@GET
+	@Path("/computerWins")
+	public int compWins() throws IOException {
+		return DatabaseLogic.getCompWins();
+	}
+
+	@GET
+	@Path("/humanWins")
+	public int humanWins() throws IOException {
+		return DatabaseLogic.getPlayerWins();
+	}
+
+	@GET
+	@Path("/averageDraws")
+	public int averageDraws() throws IOException {
+		return DatabaseLogic.getAverageDraws();
+	}
+
+	@GET
+	@Path("/longestGame")
+	public int longestGame() throws IOException {
+		return DatabaseLogic.getMostRoundsPlayed();
+	}
 }

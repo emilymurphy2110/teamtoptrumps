@@ -11,10 +11,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 import core.TopTrumps;
+import database.DatabaseLogic;
 import model.Card;
 import model.Characteristic;
 import model.Deck;
-import model.Game;
+import model.GameData;
 import model.Player;
 import online.configuration.TopTrumpsJSONConfiguration;
 
@@ -24,47 +25,51 @@ import online.configuration.TopTrumpsJSONConfiguration;
 
 public class TopTrumpsCLIApplication {
 
-	public static Game game;
+	public static GameData game;
+	public static String playerName;
+
 	/**
-	 * This main method is called by TopTrumps.java when the user specifies that they want to run in
-	 * command line mode. The contents of args[0] is whether we should write game logs to a file.
- 	 * @param args
+	 * This main method is called by TopTrumps.java when the user specifies that
+	 * they want to run in command line mode. The contents of args[0] is whether we
+	 * should write game logs to a file.
+	 * 
+	 * @param args
 	 */
 	public static void main(String[] args) {
 
 		boolean writeGameLogsToFile = false; // Should we write game logs to file?
-		if (args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
-		
+		if (args[0].equalsIgnoreCase("true"))
+			writeGameLogsToFile = true; // Command line selection
+
 		// State
 		boolean userWantsToQuit = false; // flag to check whether the user wants to quit the application
-		
-		// Loop until the user wants to exit the game
-		
-		String name = textInput("What is your name?");
-		
-		while (!userWantsToQuit) {
 
-			switch(menu("Play game", "Past Game Statistics")) {
-			case 0: 
-				userWantsToQuit=true; 
-				break;
-			case 1: 
-				System.out.println("Starting game");
-				// calls the setUpGame function from TopTrumps and adds x players
-				TopTrumps.setUpGame(3);
-				break;
-			case 2:
-				System.out.println("Past Game statistics");
-				break;
-		}
-			
-			userWantsToQuit=true; // use this when the user wants to exit the game
-			
-			// calls the setUpGame function from TopTrumps and adds 4 players
-			
+		// Loop until the user wants to exit the game
+
+		playerName = textInput("What is your name?");
+
+		mainMenu();
+	}
+
+	public static void mainMenu() {
+		switch (menu("Play game", "Past Game Statistics")) {
+		case 0:
+			DatabaseLogic.disconnectDatabase();
+			System.exit(0);
+			break;
+		case 1:
+			System.out.println("Starting game");
+			// calls the setUpGame function from TopTrumps and adds x players
+			TopTrumps.setUpGame(5, playerName);
+			break;
+		case 2:
+			System.out.println("Past Game statistics");
+			TopTrumps.printStats();
+			mainMenu();
+			break;
 		}
 	}
-	
+
 	// method for creating a menu within the command line
 	public static int menu(String... strings) {
 		while (true) {
@@ -86,14 +91,14 @@ public class TopTrumpsCLIApplication {
 			}
 		}
 	}
-	
+
 	// method for inputting text in the command line
 	public static String textInput(String question) {
 		System.out.println(question);
 		Scanner s = new Scanner(System.in);
 		return s.nextLine();
 	}
-	
+
 	// method for inputting numbers in the command line
 	public static int numberInput(String question, int min, int max) {
 		while (true) {
@@ -111,5 +116,5 @@ public class TopTrumpsCLIApplication {
 			}
 		}
 	}
-	
+
 }

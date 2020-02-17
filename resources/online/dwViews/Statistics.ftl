@@ -3,7 +3,7 @@
 	<head>
 		<!-- Web page title -->
     	<title>Top Trumps</title>
-    	
+
     	<!-- Import JQuery, as it provides functions you will probably find useful (see https://jquery.com/) -->
     	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
     	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
@@ -22,7 +22,7 @@
 	</head>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
+
     	<!-- Navagation Bar-->
 		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 			<a href="http://localhost:7777/toptrumps/" class="navbar-home">TopTrumps</a>
@@ -33,7 +33,7 @@
 					<li class="nav-item">
 						<a href="http://localhost:7777/toptrumps/game/" class="nav-link">New Game</a>
 					</li>
-					<li class="nav-item">							
+					<li class="nav-item">
 						<a href="http://localhost:7777/toptrumps/stats/" class="nav-link">Statistics</a>
 					</li>
 				</ul>
@@ -48,32 +48,95 @@
 					<h3 class="font-weight-bold">Game Statistics</h3>
 				</div>
 				<div class="alert alert-primary" role="alert">
-					<p>Number of Games: </p>
-					<p>Number of Human Wins: </p>
-					<p>Number of AI Wins: </p>
-					<p>Average Draws per Game: </p>
-					<p>Longest Game: </p>
+					<p id="totalgames">Number of Games: </p>
+					<p id="compwins">Number of Computer Wins: </p>
+					<p id="humanwins">Number of Human Wins: </p>
+					<p id="averagedraws">Average Draws per Game: </p>
+					<p id="longestgame">Longest Game: </p>
 				</div>
 			</div>
 		</div>
-		
+
 		<script type="text/javascript">
-		
+
 			// Method that is called on page load
 			function initalize() {
-			
+			totalGames();
+			compWins();
+			humanWins();
+			averageDraw();
+			longestGame();
 				// --------------------------------------------------------------------------
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
-				
+
 				// For example, lets call our sample methods
-				
+
+			}
+
+			function totalGames() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numberOfGames");
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText);
+					var obj = document.getElementById('totalgames');
+					obj.innerHTML="Total number of Games: " + responseText;
+					compWins();
+				};
+				xhr.send();
+			}
+
+			function compWins() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/computerWins");
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText);
+					var obj = document.getElementById('compwins');
+					obj.innerHTML="Number of Computer wins: " + responseText;
+					humanWins();
+				};
+				xhr.send();
 			}
 			
+			function humanWins() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/humanWins");
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText);
+					var obj = document.getElementById('humanwins');
+					obj.innerHTML="Number of Human wins: " + responseText;
+					averageDraws();
+				};
+				xhr.send();
+			}
+			
+			function averageDraws() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/averageDraws");
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText);
+					var obj = document.getElementById('averagedraws');
+					obj.innerHTML="Average draws per game: " + responseText;
+					longestGame();
+				};
+				xhr.send();
+			}
+			
+			function longestGame() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/longestGame");
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText);
+					var obj = document.getElementById('longestgame');
+					obj.innerHTML="Longest game: " + responseText;
+				};
+				xhr.send();
+			}
+
 			// -----------------------------------------
 			// Add your other Javascript methods Here
 			// -----------------------------------------
-		
+
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
   				var xhr = new XMLHttpRequest();
@@ -98,19 +161,19 @@
   				 }
   				 return xhr;
 			}
-		
-		</script>
-		
-		<!-- Here are examples of how to call REST API Methods -->
-		<script type="text/javascript">
-		
-			
 
 		</script>
-		
+
+		<!-- Here are examples of how to call REST API Methods -->
+		<script type="text/javascript">
+
+
+
+		</script>
+
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		
+
 		</body>
 </html>

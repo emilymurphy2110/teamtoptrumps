@@ -3,7 +3,7 @@
 	<head>
 		<!-- Web page title -->
     	<title>Top Trumps</title>
-    	
+
     	<!-- Import JQuery, as it provides functions you will probably find useful (see https://jquery.com/) -->
     	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
     	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
@@ -33,7 +33,7 @@
 					<li class="nav-item">
 						<a href="http://localhost:7777/toptrumps/game/" class="nav-link">New Game</a>
 					</li>
-					<li class="nav-item">							
+					<li class="nav-item">
 						<a href="http://localhost:7777/toptrumps/stats/" class="nav-link">Statistics</a>
 					</li>
 				</ul>
@@ -88,7 +88,7 @@
 					   	    <h5 class="card-title" style="font-size:14px">Card title</h5>
 					  	  </div>
 					 	  <ul class="list-group list-group-flush">
-					    	<li class="list-group-item" style="font-size:10px">Speed: </li>
+					    	<li id="c1" class="list-group-item" style="font-size:10px">Speed: </li>
 					    	<li class="list-group-item" style="font-size:10px">Cargo: </li>
 					   		<li class="list-group-item" style="font-size:10px">Size: </li>
 					   		<li class="list-group-item"  style="font-size:10px">Range: </li>
@@ -167,7 +167,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$("#selected").toggle();
@@ -182,6 +182,8 @@
 
 		<script type="text/javascript">
 			$("#aiSelection").click(function(){
+				var e = document.getElementById("playerSelection");
+				roundStage2(e.selectedIndex);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -194,6 +196,7 @@
 
 		<script type="text/javascript">
 			$("#speed").click(function(){
+				roundStage2(0);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -206,6 +209,7 @@
 
 		<script type="text/javascript">
 			$("#cargo").click(function(){
+				roundStage2(1);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -218,6 +222,7 @@
 
 		<script type="text/javascript">
 			$("#size").click(function(){
+				roundStage2(2);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -226,10 +231,11 @@
 				$("#playerSelection").toggle();
 				$("#showWinner").toggle();
 			});
-		</script>	
+		</script>
 
 		<script type="text/javascript">
 			$("#range").click(function(){
+				roundStage2(3);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -242,6 +248,7 @@
 
 		<script type="text/javascript">
 			$("#firepower").click(function(){
+				roundStage2(4);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -277,75 +284,13 @@
 			});
 		</script>
 
-		<script>
-		
-			// Method that is called on page load
-			function initalize() {
-			
-				newGame();
-
-				loadCards(); 
-
-				startingPlayer();
 
 
-				// $("#selected").hide();
-				// $("#showWinner").hide();
-				// $("#ai1").hide();
-				// $("#ai2").hide();
-				// $("#ai3").hide();
-				// $("#ai4").hide();
-			
-				// --------------------------------------------------------------------------
-				// You can call other methods you want to run when the page first loads here
-				// --------------------------------------------------------------------------
-				
-				
 
-				//	function startRound(){
-				//	var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/newRound"); // Request type and URL+parameters
-				//	if (!xhr) {
-  				//		alert("CORS not supported");
-				//	}
-				//	xhr.send();
-				//	}
-
-			}
-			
-			// -----------------------------------------
-			// Add your other Javascript methods Here
-			// -----------------------------------------
-		
-			// This is a reusable method for creating a CORS request. Do not edit this.
-			function createCORSRequest(method, url) {
-  				var xhr = new XMLHttpRequest();
-  				if ("withCredentials" in xhr) {
-
-    				// Check if the XMLHttpRequest object has a "withCredentials" property.
-    				// "withCredentials" only exists on XMLHTTPRequest2 objects.
-    				xhr.open(method, url, true);
-
-  				} else if (typeof XDomainRequest != "undefined") {
-
-    				// Otherwise, check if XDomainRequest.
-    				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-    				xhr = new XDomainRequest();
-    				xhr.open(method, url);
-
- 				 } else {
-
-    				// Otherwise, CORS is not supported by the browser.
-    				xhr = null;
-
-  				 }
-  				 return xhr;
-			}
-		
-		</script>
-		
-		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
-		
+		<!-- Here are examples of how to call REST API Methods -->
+
+
 			// This gives the player chosen attribute: Speed
 			function speed(){
 
@@ -353,22 +298,22 @@
 
 			// This gives the player chosen attribute: Cargo
 			function cargo(){
-				
+
 			}
 
 			// This gives the player chosen attribute: Size
 			function size(){
-				
+
 			}
 
 			// This gives the player chosen attribute: Range
 			function range(){
-				
+
 			}
 
 			// This gives the player chosen attribute: Firepower
 			function firepower(){
-				
+
 			}
 
 			// This is the button for when the ai is making a category selection
@@ -401,34 +346,39 @@
 				xhr.send();
 			}
 
+
+
+		</script>
+
+		<script>
+
+			// Method that is called on page load
+			function initalize() {
+				newGame();
+				roundStage1();
+				getPlayerCard();
+				getRoundNumber();
+				getAI1();
+				console.log("hello");
+
+			}
+
 			function newGame() {
-			
+
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/newGame"); // Request type and URL+parameters
-				
+
 				// Message is not sent yet, but we can check that the browser supports CORS
 				if (!xhr) {
   					alert("CORS not supported");
 				}
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
+				xhr.onload = function(e) {
+					roundStage1();
 				}
 
-			function loadCards() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/loadCards"); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-				
-					// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();
 			}
-				
 
 			function startingPlayer(){
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/startingPlayer"); // Request type and URL+parameters
@@ -449,31 +399,177 @@
 					}
 				}
 				xhr.send();
-						
 			}
 
-			// function roundStart(){
-			// 	$(document).ready(function(){
-			// 		$("#selected").hide();
-			// 		$("#showWinner").hide();
-			// 		$("#ai1").hide();
-			// 		$("#ai2").hide();
-			// 		$("#ai3").hide();
-			// 		$("#ai4").hide();
-			// 	});
-			// }	
+			function getPlayerCard() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayerCard");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('human').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('human').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('human').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('human').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('human').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('human').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI1();
+				};
+				xhr.send();
+			}
 
-			// This calls the round method in REST API Methods
-			// function newRound(){ 
-			// 	var xhr = createCORSRequest('GET', "http://localhost:8080/toptrumps/newRound"); // Request type and URL+parameters
-			// 	if (!xhr) {
-  	// 					alert("CORS not supported");
-			// 	}
-			// 	xhr.send();		
+			function getAI1() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI1");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai1').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai1').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai1').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai1').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai1').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai1').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI2();
+				};
+				xhr.send();
+			}
 
-			// }
-		</script>
-	
+			function getAI2() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI2");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai2').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai2').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai2').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai2').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai2').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai2').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI3();
+				};
+				xhr.send();
+			}
+
+			function getAI3() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI3");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai3').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai3').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai3').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai3').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai3').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai3').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getAI4();
+				};
+				xhr.send();
+			}
+			function getAI4() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAI4");
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+	 				var value = JSON.parse(responseText);
+					var obj = document.getElementById('ai4').getElementsByClassName('card-title')[0];
+					var c1 = document.getElementById('ai4').getElementsByClassName('list-group-item')[0];
+					var c2 = document.getElementById('ai4').getElementsByClassName('list-group-item')[1];
+					var c3 = document.getElementById('ai4').getElementsByClassName('list-group-item')[2];
+					var c4 = document.getElementById('ai4').getElementsByClassName('list-group-item')[3];
+					var c5 = document.getElementById('ai4').getElementsByClassName('list-group-item')[4];
+					obj.innerHTML=value.name;
+					c1.innerHTML="Speed: " + value.characteristics[0].value;
+					c2.innerHTML="Cargo: " + value.characteristics[1].value;
+					c3.innerHTML="Size: " + value.characteristics[2].value;
+					c4.innerHTML="Range: " + value.characteristics[3].value;
+					c5.innerHTML="Firepower: " + value.characteristics[4].value;
+					getRoundNumber();
+				};
+				xhr.send();
+			}
+
+			function getRoundNumber() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getRoundNumber");
+				xhr.onload = function(e) {
+ 				var responseText = xhr.response; // the text of the response
+ 				var value = JSON.parse(responseText);
+				var obj = document.getElementById('actionInfo');
+				obj.innerHTML="Round: " + value;
+				};
+				xhr.send();
+			}
+			function roundStage1() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundStage1");
+				xhr.onload = function(e) {
+					getPlayerCard();
+				}
+				xhr.send();
+			}
+
+
+			function roundStage2(int char) {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundStage2?c=" + char);
+
+				xhr.onload = function(e) {
+					getPlayerCard();
+				}
+				xhr.send();
+			}
+
+
+
+			// -----------------------------------------
+			// Add your other Javascript methods Here
+			// -----------------------------------------
+
+			// This is a reusable method for creating a CORS request. Do not edit this.
+			function createCORSRequest(method, url) {
+  				var xhr = new XMLHttpRequest();
+  				if ("withCredentials" in xhr) {
+
+    				// Check if the XMLHttpRequest object has a "withCredentials" property.
+    				// "withCredentials" only exists on XMLHTTPRequest2 objects.
+    				xhr.open(method, url, true);
+
+  				} else if (typeof XDomainRequest != "undefined") {
+
+    				// Otherwise, check if XDomainRequest.
+    				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+    				xhr = new XDomainRequest();
+    				xhr.open(method, url);
+
+ 				 } else {
+
+    				// Otherwise, CORS is not supported by the browser.
+    				xhr = null;
+
+  				 }
+  				 return xhr;
+			}
+			</script>
+
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
