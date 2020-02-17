@@ -182,6 +182,8 @@
 
 		<script type="text/javascript">
 			$("#aiSelection").click(function(){
+				var e = document.getElementById("playerSelection");
+				roundStage2(e.selectedIndex);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -194,6 +196,7 @@
 
 		<script type="text/javascript">
 			$("#speed").click(function(){
+				roundStage2(0);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -206,6 +209,7 @@
 
 		<script type="text/javascript">
 			$("#cargo").click(function(){
+				roundStage2(1);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -218,6 +222,7 @@
 
 		<script type="text/javascript">
 			$("#size").click(function(){
+				roundStage2(2);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -230,6 +235,7 @@
 
 		<script type="text/javascript">
 			$("#range").click(function(){
+				roundStage2(3);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -242,6 +248,7 @@
 
 		<script type="text/javascript">
 			$("#firepower").click(function(){
+				roundStage2(4);
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
@@ -350,11 +357,8 @@
 				newGame();
 				roundStage1();
 				getPlayerCard();
-				getAI1();
-				getAI2();
-				getAI3();
-				getAI4();
 				getRoundNumber();
+				getAI1();
 				console.log("hello");
 
 			}
@@ -523,6 +527,17 @@
 				}
 				xhr.send();
 			}
+
+
+			function roundStage2(int char) {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundStage2?c=" + char);
+
+				xhr.onload = function(e) {
+					getPlayerCard();
+				}
+				xhr.send();
+			}
+
 
 
 			// -----------------------------------------

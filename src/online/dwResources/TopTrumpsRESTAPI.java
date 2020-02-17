@@ -81,6 +81,8 @@ public class TopTrumpsRESTAPI {
 
 		return listAsJSONString;
 	}
+	
+	
 
 	@GET
 	@Path("/jettyserver")
@@ -115,6 +117,15 @@ public class TopTrumpsRESTAPI {
 	public void roundStage1() throws IOException {
 		TopTrumps.roundStage1();
 	}
+	
+	
+	@GET
+	@Path("/roundStage2")
+	public int roundStage2(@QueryParam("c") int Characteristic) throws IOException {
+		TopTrumps.roundStage2(Characteristic);
+		return 200;
+	}
+	
 
 	@GET
 	@Path("/getPlayerCard")

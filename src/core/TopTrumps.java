@@ -175,18 +175,22 @@ public class TopTrumps {
 			System.out.println(topCards.getCards().get(0));
 		}
 		if (commandLineMode) {
-			roundStage2();
+			roundStage2(-1);
 		}
 	}
 
-	public static void roundStage2() {
+	public static void roundStage2(int playerCharacteristic) {
 
 		// step 2 - if human: present card on screen and ask for attribute
 		// if AI: automatically choose highest attribute
 		int chosenAttribute = 0;
 		// change to -1 to have an all AI game, change to 0 to have a human player
-		if (playerChooseAttribute == -1 && commandLineMode) {
-			chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) - 1;
+		if (playerChooseAttribute == -1) {
+			if(commandLineMode) {
+				chosenAttribute = TopTrumpsCLIApplication.numberInput("Choose a Characteristic", 1, 5) - 1;
+			} else {
+				chosenAttribute = playerCharacteristic;
+			}
 		} else {
 			Characteristic[] characteristicsPlayerCard = topCards.getCards().get(playerChooseAttribute)
 					.getCharacteristics();
