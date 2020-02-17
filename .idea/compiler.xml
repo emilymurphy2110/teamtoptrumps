@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="MScIT2020Project" />
         <module name="teamtoptrumps" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="MScIT2020Project" target="1.8" />
       <module name="teamtoptrumps" target="1.8" />
     </bytecodeTargetLevel>
   </component>
