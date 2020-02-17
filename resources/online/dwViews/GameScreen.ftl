@@ -58,7 +58,7 @@
 								</div>
 							</div>
 						<div class="dropdown">
- 							<button class="btn btn-secondary dropdown-toggle" type="button" id="playerSelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 12rem; font-size:10px">Next: Category Selection
+ 							<button class="btn btn-secondary dropdown-toggle" type="button" id="playerSelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 12rem; font-size:10px">Next: Player Category Selection
  							</button>
  							<div class="dropdown-menu" aria-labelledby="playerSelection" style="font-size:10px">
    								<button class="dropdown-item" id="speed" type="button" style="font-size:10px">Select: Speed</button>
@@ -70,7 +70,7 @@
  						</div>
  						</div>
 						<div>
-							<button type="button" id="aiSelection" style="width: 12rem; font-size:10px" class="btn btn-success">Next: Category Selection</button>
+							<button type="button" id="aiSelection" style="width: 12rem; font-size:10px" class="btn btn-success">Next: AI Category Selection</button>
 						</div>
 						<div>
 							<button type="button" id="newRound" style="width: 12rem; font-size:10px" class="btn btn-success">New Round</button>
@@ -170,7 +170,7 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				startingPlayer();
+			//	startingPlayer();
 				// var start = $(.h4).text();
 				// if(start == "Player"){
 				// 	$("#aiSelection").toggle();
@@ -192,14 +192,16 @@
 
 		<script type="text/javascript">
 			$("#aiSelection").click(function(){
-				var e = document.getElementById("playerSelection");
-				roundStage2(e.selectedIndex);
+				//var e = document.getElementById("playerSelection");
+				roundStage2(-1);
+				//roundStage1();
 				$("#selected").toggle()
 				$("#ai1").toggle();
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				$("#aiSelection").prop('disabled', true);
+				$("#playerSelection").toggle();
+				$("#aiSelection").toggle();
 				$("#showWinner").toggle();
 			});
 		</script>
@@ -212,8 +214,9 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				//$("#playerSelection").toggle();
-				// $("#showWinner").toggle();
+				$("#playerSelection").toggle();
+				$("#aiSelection").toggle();
+				$("#showWinner").toggle();
 			});
 		</script>
 
@@ -225,8 +228,9 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				// $("#playerSelection").toggle();
-				// $("#showWinner").toggle();
+				$("#playerSelection").toggle();
+				$("#aiSelection").toggle();
+				$("#showWinner").toggle();
 			});
 		</script>
 
@@ -238,8 +242,9 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				// $("#playerSelection").toggle();
-				// $("#showWinner").toggle();
+				$("#playerSelection").toggle();
+				$("#aiSelection").toggle();
+				$("#showWinner").toggle();
 			});
 		</script>
 
@@ -251,8 +256,9 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				// $("#playerSelection").toggle();
-				// $("#showWinner").toggle();
+				$("#playerSelection").toggle();
+				$("#aiSelection").toggle();
+				$("#showWinner").toggle();
 			});
 		</script>
 
@@ -264,8 +270,9 @@
 				$("#ai2").toggle();
 				$("#ai3").toggle();
 				$("#ai4").toggle();
-				// $("#playerSelection").toggle();
-				// $("#showWinner").toggle();
+				$("#playerSelection").toggle();
+				$("#aiSelection").toggle();
+				$("#showWinner").toggle();
 			});
 		</script>
 
@@ -280,8 +287,8 @@
 				$("#ai3").toggle();
 				$("#ai4").toggle();
 				// $("#aiSelection").toggle();
-				// $("#showWinner").toggle();
-				// $("#newRound").toggle();
+				$("#showWinner").toggle();
+				$("#newRound").toggle();
 				// $(#playerSelection).hide();
 				// $(#aiSelection).hide();
 			});
@@ -293,8 +300,10 @@
 				$("#activePlayer").toggle();
 				// $("#selected").toggle()
 				 $("#human").toggle();;
-				// $("#aiSelection").toggle();
+				 $("#playerSelection").toggle();
+ 					$("#aiSelection").toggle();
 				// $("#showWinner").toggle();
+				$("#newRound").toggle();
 			});
 		</script>
 
@@ -394,14 +403,14 @@
 				}
 				xhr.onload = function(e) {
  					var startingPlayer = xhr.response; // the text of the response
-					if(startingPlayer == "Player"){
-							$("#aiSelection").toggle();
-							console.log("hello");
-
-					}else{
-							$("#playerSelection").toggle();
-
-					}
+					// if(startingPlayer == "Player"){
+					// 		$("#aiSelection").toggle();
+					// 		console.log("hello");
+					//
+					// }else{
+					// 		$("#playerSelection").toggle();
+					//
+					// }
 					var e = document.getElementById('activePlayer');
 					e.innerHTML = startingPlayer;
 					getChosenAttribute();

@@ -122,7 +122,6 @@ public class TopTrumpsRESTAPI {
 	@Path("/roundStage2")
 	public void roundStage2(@QueryParam("c") int c) throws IOException {
 		TopTrumps.roundStage2(c);
-		System.out.println(c);
 	}
 	
 
